@@ -3,9 +3,7 @@ import Card from '../card/card';
 import Header from '../header/header';
 import PropTypes from 'prop-types';
 
-const cardsOffers = [1, 2, 3, 4, 5];
-
-const MainScreen = ({offersCount}) => {
+const MainScreen = ({offersCount, hotels}) => {
   return <div className="page page--gray page--main">
     <Header/>
     <main className="page__main page__main--index">
@@ -67,7 +65,7 @@ const MainScreen = ({offersCount}) => {
               </ul>
             </form>
             <div className="cities__places-list places__list tabs__content">
-              {cardsOffers.map((card, i) => <Card key={`card_${i}`} />)}
+              {hotels.map((offer) => <Card key={offer.id} offer={offer}/>)}
             </div>
           </section>
           <div className="cities__right-section">
@@ -80,7 +78,8 @@ const MainScreen = ({offersCount}) => {
 };
 
 MainScreen.propTypes = {
-  offersCount: PropTypes.number.isRequired
+  offersCount: PropTypes.number.isRequired,
+  hotels: PropTypes.array.isRequired,
 };
 
 export default MainScreen;
