@@ -18,4 +18,6 @@ export const getRatingWidth = (rating) => {
   }
 };
 
+export const randomItem = (elements, min) => elements[randomInteger(min, elements.length - 1)];
+
 export const formDate = (value, format) => dayjs(value).format(format);

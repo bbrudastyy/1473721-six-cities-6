@@ -1,6 +1,7 @@
 import React from 'react';
 import Card from '../card/card';
 import Header from '../header/header';
+import Map from '../map/map';
 import PropTypes from 'prop-types';
 
 const MainScreen = ({offersCount, hotels}) => {
@@ -69,7 +70,9 @@ const MainScreen = ({offersCount, hotels}) => {
             </div>
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map" />
+            <section className="cities__map map">
+              <Map hotels={hotels} />
+            </section>
           </div>
         </div>
       </div>

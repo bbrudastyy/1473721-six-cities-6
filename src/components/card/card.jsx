@@ -1,18 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 import {getRatingWidth} from '../../utils/utils';
+import CardProps from './card.prop';
 
-const Card = ({offer}) => {
+const Card = ({offer, favoriteScreen = false}) => {
   const {price, isPremium, previewImage, title, rating, type, isFavorite, id} = offer;
 
-  return <article className="cities__place-card place-card">
+  return <article className={`${favoriteScreen ? `favorites__card` : `cities__place-card`} place-card`}>
     {isPremium ? <div className="place-card__mark"> <span>Premium</span> </div> : ``}
     <div className="cities__image-wrapper place-card__image-wrapper">
-      <a href={`offer/${id}`}>
+      <Link to={`/offer/${id}`}>
         <img className="place-card__image" src={`${previewImage}`} width={260} height={200} alt="Place image" />
-      </a>
+      </Link>
     </div>
-    <div className="place-card__info">
+    <div className={`${favoriteScreen ? `favorites__card-info` : ``} place-card__info`}>
       <div className="place-card__price-wrapper">
         <div className="place-card__price">
           <b className="place-card__price-value">{`€${price}`}</b>
@@ -39,16 +40,6 @@ const Card = ({offer}) => {
   </article>;
 };
 
-Card.propTypes = {
-  offer: PropTypes.object.isRequired,
-  id: PropTypes.number,
-  price: PropTypes.number,
-  isPremium: PropTypes.bool,
-  previewImage: PropTypes.string,
-  title: PropTypes.string,
-  rating: PropTypes.number,
-  type: PropTypes.number,
-  isFavorite: PropTypes.bool
-};
+Card.propTypes = CardProps;
 
 export default Card;

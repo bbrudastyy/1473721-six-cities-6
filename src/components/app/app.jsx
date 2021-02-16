@@ -7,11 +7,9 @@ import NotFoundScreen from '../not-found-screen/not-found-screen';
 import {Switch, Route, BrowserRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const searchHotel = (hotels, id) => hotels.find((hotel) => hotel.id === Number(id));
-const searchComments = (comments, id) => comments.filter((comment) => comment.id === Number(id));
+const getFavoritesHotels = (hotels) => hotels.filter((hotel) => hotel.isFavorite);
 
 const App = ({offersCount, hotels, comments}) => {
-  const id = window.location.pathname.substring(7);
   return (
     <BrowserRouter>
       <Switch>
@@ -24,12 +22,17 @@ const App = ({offersCount, hotels, comments}) => {
           <LoginScreen />
         </Route>
         <Route exact path="/favorites">
-          <FavoritesScreen />
+          <FavoritesScreen
+            hotels={getFavoritesHotels(hotels)} />
         </Route>
-        <Route exact path="/offer/:id">
-          <OfferScreen
-            hotel={searchHotel(hotels, id)}
-            comments={searchComments(comments, id)} />
+        <Route exact path="/offer/:id"
+          render={({match}) => {
+            const {id} = match.params;
+            const hotel = hotels.find((element) => element.id === +id);
+            const hotelOthers = hotels.filter((element) => element.city.name === hotel.city.name);
+            const hotelComments = comments.filter((comment) => comment.id === +id);
+            return <OfferScreen hotel={hotel} comments={hotelComments} hotels={hotelOthers} />;
+          }} >
         </Route>
         <Route>
           <NotFoundScreen />
