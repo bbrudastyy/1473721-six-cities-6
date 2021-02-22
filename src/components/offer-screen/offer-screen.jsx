@@ -4,9 +4,8 @@ import Photo from '../photo/photo';
 import InsideItem from '../inside-item/inside-item';
 import PropTypes from 'prop-types';
 import {getRatingWidth} from '../../utils/utils';
-import Comment from '../comment/comment';
 import OtherPlace from '../other-place/other-place';
-import Form from '../form/form';
+import Reviews from '../reviews/reviews';
 
 const getPhotosContainer = (photos) => {
   if (photos) {
@@ -28,16 +27,6 @@ const getGoodsContainer = (goods) => {
         {goods.map((good, id) => < InsideItem key={`good_${id}`} good={good} />)}
       </ul>
     </div>;
-  } else {
-    return ``;
-  }
-};
-
-const getCommentContainer = (comments) => {
-  if (comments) {
-    return <ul className="reviews__list">
-      {comments.map((comment, id) => < Comment key={`comment_${id}`} comment={comment} />)}
-    </ul>;
   } else {
     return ``;
   }
@@ -122,13 +111,7 @@ const OfferScreen = ({hotel, comments, hotels}) => {
                   </p>
                 </div>
               </div>
-              <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews · <span className="reviews__amount">{comments.length}</span></h2>
-                <ul className="reviews__list">
-                  {getCommentContainer(comments)}
-                </ul>
-                <Form />
-              </section>
+              <Reviews comments={comments}/>
             </div>
           </div>
           <section className="property__map map" />

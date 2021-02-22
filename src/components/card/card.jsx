@@ -41,6 +41,8 @@ const Card = ({offer, favoriteScreen = false}) => {
   </article>;
 };
 
+// изменить первый див
+
 Card.propTypes = {
   offer: CardProps,
   isFavorite: PropTypes.bool,
