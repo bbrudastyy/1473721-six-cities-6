@@ -2,7 +2,9 @@ import React from 'react';
 import Card from '../card/card';
 import Header from '../header/header';
 import Map from '../map/map';
+import CityNameItem from '../city-name-item/city-name-item';
 import PropTypes from 'prop-types';
+import {citesNames} from '../../mocks/offers';
 
 const MainScreen = ({offersCount, hotels}) => {
   return <div className="page page--gray page--main">
@@ -12,36 +14,7 @@ const MainScreen = ({offersCount, hotels}) => {
       <div className="tabs">
         <section className="locations container">
           <ul className="locations__list tabs__list">
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Paris</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Cologne</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Brussels</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item tabs__item--active">
-                <span>Amsterdam</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Hamburg</span>
-              </a>
-            </li>
-            <li className="locations__item">
-              <a className="locations__item-link tabs__item" href="#">
-                <span>Dusseldorf</span>
-              </a>
-            </li>
+            {citesNames.map((cityName, id) => <CityNameItem key={`cityName_${id}`} cityName={cityName} />)}
           </ul>
         </section>
       </div>
@@ -70,9 +43,7 @@ const MainScreen = ({offersCount, hotels}) => {
             </div>
           </section>
           <div className="cities__right-section">
-            <section className="cities__map map">
-              <Map hotels={hotels} />
-            </section>
+            <Map hotels={hotels} />
           </div>
         </div>
       </div>

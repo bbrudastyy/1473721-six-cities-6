@@ -9,10 +9,10 @@ const DefaultValues = {
   MAX_LOCATION_X: 52,
   MIN_LOCATION_Y: 4,
   MAX_LOCATION_Y: 4,
-  MIN_LOCATION_TENTH_X: 3.5,
-  MAX_LOCATION_TENTH_X: 4,
-  MIN_LOCATION_TENTH_Y: 8,
-  MAX_LOCATION_TENTH_Y: 9,
+  MIN_LOCATION_TENTH_X: 369553943508,
+  MAX_LOCATION_TENTH_X: 3909553943508,
+  MIN_LOCATION_TENTH_Y: 85309666406198,
+  MAX_LOCATION_TENTH_Y: 939309666406198,
   MIN_ZOOM: 1,
   MAX_ZOOM: 10,
   MIN: 0,
@@ -31,15 +31,15 @@ const DefaultValues = {
 const idsHotels = [1, 2, 3, 4, 5, 6];
 const idsComments = [1, 1, 1, 2, 4, 2, 4, 6, 6, 3, 3, 5];
 
-// const cityName = [`Paris`, `Cologne`, `Brussels`, `Amsterdam`, `Hamburg`, `Dusseldorf`];
+export const citesNames = [`Paris`, `Cologne`, `Brussels`, `Amsterdam`, `Hamburg`, `Dusseldorf`];
 const descriptions = [`A quiet`, `cozy and picturesque`, `that hides`, `behind a river`, `by the unique lightness`];
 const type = [`apartment`, `room`, `house`, `hotel`];
 const goods = [`Wi-Fi`, `Washing machine`, `Towels`, `Heating`, `Coffee machine`, `Baby seat`, `Kitchen`, `Dishwasher`, `Cable TV`];
 const names = [`Bogdan`, `Vladislav`, `Anna`, `Valeria`, `Anton`, `Igor`, `Kate`];
 
 const getBeddrooms = () => randomInteger(DefaultValues.MIN_RANDOM_BERDOOMS, DefaultValues.MAX_RANDOM_BERDOOMS);
-const getCoordinatesX = () => Number(`${randomInteger(DefaultValues.MIN_LOCATION_X, DefaultValues.MAX_LOCATION_X)}.${randomInteger(DefaultValues.MIN_LOCATION_TENTH_X, DefaultValues.MAX_LOCATION_TENTH_X)}70216`);
-const getCoordinatesY = () => Number(`${randomInteger(DefaultValues.MIN_LOCATION_Y, DefaultValues.MAX_LOCATION_Y)}.${randomInteger(DefaultValues.MIN_LOCATION_TENTH_Y, DefaultValues.MAX_LOCATION_TENTH_Y)}70216`);
+const getCoordinatesX = () => Number(`${randomInteger(DefaultValues.MIN_LOCATION_X, DefaultValues.MAX_LOCATION_X)}.${randomInteger(DefaultValues.MIN_LOCATION_TENTH_X, DefaultValues.MAX_LOCATION_TENTH_X)}`);
+const getCoordinatesY = () => Number(`${randomInteger(DefaultValues.MIN_LOCATION_Y, DefaultValues.MAX_LOCATION_Y)}.${randomInteger(DefaultValues.MIN_LOCATION_TENTH_Y, DefaultValues.MAX_LOCATION_TENTH_Y)}`);
 const getZoom = () => randomInteger(DefaultValues.MIN_ZOOM, DefaultValues.MAX_ZOOM);
 // const getCityName = () => randomItem(cityName, DefaultValues.MIN);
 const getDescription = () => descriptions[randomInteger(DefaultValues.MIN, descriptions.length - 1)];
@@ -116,7 +116,7 @@ const getHotel = (id) => {
     previewImage: getPreviewPhoto(),
     price: getPrice(),
     rating: getRating(),
-    title: `Beautiful & luxurious studio at great ${randomInteger(DefaultValues.MIN, DefaultValues.MAX_ZOOM)}`,
+    title: `Beautiful & luxurious studio at great ${id}`,
     type: getType()
   };
 };
@@ -137,13 +137,9 @@ const getComment = (id) => {
 };
 
 export const getHotelsMocks = () => {
-  const hotels = [];
-  idsHotels.map((id) => hotels.push(getHotel(id)));
-  return hotels;
+  return idsHotels.map((id) => getHotel(id));
 };
 
 export const getCommentsMocks = () => {
-  const comments = [];
-  idsComments.map((id) => comments.push(getComment(id)));
-  return comments;
+  return idsComments.map((id) => getComment(id));
 };

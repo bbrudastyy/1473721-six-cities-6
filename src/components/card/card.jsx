@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {getRatingWidth} from '../../utils/utils';
+import PropTypes from 'prop-types';
 import CardProps from './card.prop';
 
 const Card = ({offer, favoriteScreen = false}) => {
@@ -40,6 +41,10 @@ const Card = ({offer, favoriteScreen = false}) => {
   </article>;
 };
 
-Card.propTypes = CardProps;
+Card.propTypes = {
+  offer: CardProps,
+  isFavorite: PropTypes.bool,
+  favoriteScreen: PropTypes.bool
+};
 
 export default Card;

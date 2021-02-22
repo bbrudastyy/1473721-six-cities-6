@@ -1,14 +1,34 @@
 import PropTypes from 'prop-types';
 
-export default {
-  offer: PropTypes.object.isRequired,
+const locationProp = PropTypes.shape({
+  latitude: PropTypes.number,
+  longitude: PropTypes.number,
+  zoom: PropTypes.number
+});
+
+export default PropTypes.shape({
+  bedrdooms: PropTypes.number,
+  city: PropTypes.shape({
+    location: locationProp,
+    name: PropTypes.string
+  }),
+  description: PropTypes.string,
+  goods: PropTypes.arrayOf(PropTypes.string),
+  host: PropTypes.shape({
+    avatarUrl: PropTypes.string,
+    id: PropTypes.number,
+    isPro: PropTypes.bool,
+    name: PropTypes.string
+  }),
   id: PropTypes.number,
-  price: PropTypes.number,
-  isPremium: PropTypes.bool,
-  previewImage: PropTypes.string,
-  title: PropTypes.string,
-  rating: PropTypes.number,
-  type: PropTypes.number,
+  images: PropTypes.arrayOf(PropTypes.string),
   isFavorite: PropTypes.bool,
-  favoriteScreen: PropTypes.bool
-};
+  isPremium: PropTypes.bool,
+  location: locationProp,
+  maxAdults: PropTypes.number,
+  previewImage: PropTypes.string,
+  price: PropTypes.number,
+  rating: PropTypes.number,
+  title: PropTypes.string,
+  type: PropTypes.string
+});
