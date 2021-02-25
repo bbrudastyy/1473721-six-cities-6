@@ -4,8 +4,12 @@ import Photo from '../photo/photo';
 import InsideItem from '../inside-item/inside-item';
 import PropTypes from 'prop-types';
 import {getRatingWidth} from '../../utils/utils';
-import OtherPlace from '../other-place/other-place';
 import Reviews from '../reviews/reviews';
+import CardContainer from '../card-container/card-container';
+import {TypeCard, TypeMap} from '../../utils/utils';
+import CardProps from '../card/card.prop';
+import CommentProps from '../comment/comment.prop';
+import Map from '../map/map';
 
 const getPhotosContainer = (photos) => {
   if (photos) {
@@ -37,9 +41,7 @@ const getOtherPlace = (hotels, name) => {
     return <div className="container">
       <section className="near-places places">
         <h2 className="near-places__title">Other places in the {name}</h2>
-        <div className="near-places__list places__list">
-          {hotels.map((hotel, id) => <OtherPlace key={`hotel_${id}`} hotel={hotel} />)}
-        </div>
+        <CardContainer hotels={hotels} containerType={TypeCard.MAIN} />
       </section>
     </div>;
   } else {
@@ -114,7 +116,7 @@ const OfferScreen = ({hotel, comments, hotels}) => {
               <Reviews comments={comments}/>
             </div>
           </div>
-          <section className="property__map map" />
+          <Map hotels={hotels} type={TypeMap.PROPERTY} />
         </section>
         {getOtherPlace(hotels, city.name)}
       </main>
@@ -123,9 +125,9 @@ const OfferScreen = ({hotel, comments, hotels}) => {
 };
 
 OfferScreen.propTypes = {
-  comments: PropTypes.array,
-  hotel: PropTypes.object,
-  hotels: PropTypes.array
+  comments: PropTypes.arrayOf(CommentProps),
+  hotel: CardProps,
+  hotels: PropTypes.arrayOf(CardProps)
 };
 
 export default OfferScreen;

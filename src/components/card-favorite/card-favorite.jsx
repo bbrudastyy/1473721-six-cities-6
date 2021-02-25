@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import FavoritesList from '../favorites-list/favorites-list';
+import CardProps from '../card/card.prop';
 
-const getCitiesName = (hotels) => {
+const getCities = (hotels) => {
   const CititesName = [];
   let cityName = ``;
   hotels.forEach((hotel) => {
@@ -15,7 +16,7 @@ const getCitiesName = (hotels) => {
   return CititesName;
 };
 
-const getFavotiltesList = (hotels, names) => {
+const getFavorite = (hotels, names) => {
   if (hotels.length !== 0) {
     return <section className="favorites">
       <h1 className="favorites__title">Saved listing</h1>
@@ -36,12 +37,12 @@ const getFavotiltesList = (hotels, names) => {
 
 const CardFavorite = ({hotels}) => {
   return <div className="page__favorites-container container">
-    {getFavotiltesList(hotels, getCitiesName(hotels))}
+    {getFavorite(hotels, getCities(hotels))}
   </div>;
 };
 
 CardFavorite.propTypes = {
-  hotels: PropTypes.arrayOf(PropTypes.object)
+  hotels: PropTypes.arrayOf(CardProps)
 };
 
 export default CardFavorite;

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Form from '../form/form';
 import Comment from '../comment/comment';
+import CommentProps from '../comment/comment.prop';
 
 const getCommentContainer = (comments) => {
   if (comments) {
@@ -24,7 +25,7 @@ const Reviews = ({comments}) => {
 };
 
 Reviews.propTypes = {
-  comments: PropTypes.arrayOf(PropTypes.object)
+  comments: PropTypes.arrayOf(CommentProps)
 };
 
 export default Reviews;

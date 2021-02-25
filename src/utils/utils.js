@@ -9,6 +9,11 @@ export const TypeCard = {
   NEAR: `near-places`
 };
 
+export const TypeMap = {
+  CITIES: `cities`,
+  PROPERTY: `property`
+};
+
 export const randomInteger = (min, max) => {
   let rand = min - 0.5 + Math.random() * (max - min + 1);
   return Math.round(rand);
@@ -23,6 +28,8 @@ export const getRatingWidth = (rating) => {
     return width;
   }
 };
+
+export const getHotelsByCity = (hotels, cityName) => hotels.filter((hotel) => hotel.city.name === cityName);
 
 export const randomItem = (elements, min) => elements[randomInteger(min, elements.length - 1)];
 

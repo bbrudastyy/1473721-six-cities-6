@@ -1,16 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
-import {getHotelsMocks, getCommentsMocks} from './mocks/offers';
+import {hotels, comments} from './mocks/offers';
+import {createStore} from 'redux';
+import {Provider} from 'react-redux';
+import {reducer} from './store/reducer';
+import {composeWithDevTools} from 'redux-devtools-extension';
 
-const hotels = getHotelsMocks().slice();
-const comments = getCommentsMocks().slice();
+const store = createStore(reducer, composeWithDevTools());
 
 ReactDOM.render(
-    <App
-      offersCount={hotels.length}
-      hotels={hotels}
-      comments={comments}
-    />,
+    <Provider store={store}>
+      <App
+        hotels={hotels}
+        comments={comments}
+      />
+    </Provider>,
     document.querySelector(`#root`)
 );

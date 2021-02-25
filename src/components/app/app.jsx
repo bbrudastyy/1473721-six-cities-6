@@ -9,13 +9,12 @@ import PropTypes from 'prop-types';
 
 const getFavoritesHotels = (hotels) => hotels.filter((hotel) => hotel.isFavorite);
 
-const App = ({offersCount, hotels, comments}) => {
+const App = ({hotels, comments}) => {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
           <MainScreen
-            offersCount={offersCount}
             hotels={hotels} />
         </Route>
         <Route exact path="/login">
@@ -43,7 +42,6 @@ const App = ({offersCount, hotels, comments}) => {
 };
 
 App.propTypes = {
-  offersCount: PropTypes.number.isRequired,
   hotels: PropTypes.array.isRequired,
   comments: PropTypes.array
 };

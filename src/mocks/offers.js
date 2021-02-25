@@ -41,7 +41,7 @@ const getBeddrooms = () => randomInteger(DefaultValues.MIN_RANDOM_BERDOOMS, Defa
 const getCoordinatesX = () => Number(`${randomInteger(DefaultValues.MIN_LOCATION_X, DefaultValues.MAX_LOCATION_X)}.${randomInteger(DefaultValues.MIN_LOCATION_TENTH_X, DefaultValues.MAX_LOCATION_TENTH_X)}`);
 const getCoordinatesY = () => Number(`${randomInteger(DefaultValues.MIN_LOCATION_Y, DefaultValues.MAX_LOCATION_Y)}.${randomInteger(DefaultValues.MIN_LOCATION_TENTH_Y, DefaultValues.MAX_LOCATION_TENTH_Y)}`);
 const getZoom = () => randomInteger(DefaultValues.MIN_ZOOM, DefaultValues.MAX_ZOOM);
-// const getCityName = () => randomItem(cityName, DefaultValues.MIN);
+const getCityName = () => randomItem(citesNames, DefaultValues.MIN);
 const getDescription = () => descriptions[randomInteger(DefaultValues.MIN, descriptions.length - 1)];
 const getType = () => randomItem(type, DefaultValues.MIN);
 const getNames = () => randomItem(names, DefaultValues.MIN);
@@ -92,8 +92,8 @@ const getHotel = (id) => {
         longitude: 4.895168,
         zoom: getZoom()
       },
-      // name: getCityName()
-      name: `Amsterdam`
+      name: getCityName()
+      // name: `Amsterdam`
     },
     description: getDescription(),
     goods: getGoods(),
@@ -136,10 +136,13 @@ const getComment = (id) => {
   };
 };
 
-export const getHotelsMocks = () => {
+const getHotelsMocks = () => {
   return idsHotels.map((id) => getHotel(id));
 };
 
-export const getCommentsMocks = () => {
+const getCommentsMocks = () => {
   return idsComments.map((id) => getComment(id));
 };
+
+export const hotels = getHotelsMocks();
+export const comments = getCommentsMocks();

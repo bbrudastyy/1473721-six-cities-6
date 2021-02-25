@@ -4,6 +4,7 @@ import CardFavorite from '../card-favorite/card-favorite';
 import CardNear from '../card-near/card-near';
 import {TypeCard} from '../../utils/utils';
 import PropTypes from 'prop-types';
+import CardProps from '../card/card.prop';
 
 const CardContainer = ({hotels, containerType}) => {
   const getContainerByType = (type) => {
@@ -23,7 +24,7 @@ const CardContainer = ({hotels, containerType}) => {
 };
 
 CardContainer.propTypes = {
-  hotels: PropTypes.arrayOf(PropTypes.object),
+  hotels: PropTypes.arrayOf(CardProps),
   containerType: PropTypes.string.isRequired
 };
 

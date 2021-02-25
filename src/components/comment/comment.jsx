@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {getRatingWidth} from '../../utils/utils';
+import CommentProps from '../comment/comment.prop';
 
 const Comment = ({comment}) => {
   const {text, rating, user} = comment;
@@ -32,7 +32,7 @@ const Comment = ({comment}) => {
 };
 
 Comment.propTypes = {
-  comment: PropTypes.object
+  comment: CommentProps
 };
 
 export default Comment;

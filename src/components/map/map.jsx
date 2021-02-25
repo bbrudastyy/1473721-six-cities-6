@@ -1,12 +1,14 @@
 import React, {useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 import leaflet from 'leaflet';
+import CardProps from '../card/card.prop';
 
 import "leaflet/dist/leaflet.css";
 
-const Map = ({hotels}) => {
+const Map = ({hotels, type}) => {
+  const firstHotel = hotels[0];
   const mapRef = useRef();
-  const city = [52.38333, 4.9];
+  const city = [firstHotel.city.location.latitude, firstHotel.city.location.longitude];
   const zoom = 9;
 
   useEffect(() => {
@@ -33,19 +35,20 @@ const Map = ({hotels}) => {
       })
       .addTo(map)
       .bindPopup(hotel.title);
-      return () => {
-        map.remove();
-      };
     });
+    return () => {
+      map.remove();
+    };
   }, []);
 
   return (
-    <section className="cities__map map" ref={mapRef}></section>
+    <section className={`${type}__map map`} ref={mapRef}></section>
   );
 };
 
 Map.propTypes = {
-  hotels: PropTypes.arrayOf(PropTypes.object)
+  hotels: PropTypes.arrayOf(CardProps),
+  type: PropTypes.string,
 };
 
 export default Map;
