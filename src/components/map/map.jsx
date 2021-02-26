@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import leaflet from 'leaflet';
 import CardProps from '../card/card.prop';
@@ -10,9 +10,10 @@ const Map = ({hotels, type}) => {
   const mapRef = useRef();
   const city = [firstHotel.city.location.latitude, firstHotel.city.location.longitude];
   const zoom = 9;
+  const [map, setMap] = useState(null);
 
   useEffect(() => {
-    const map = leaflet.map(mapRef.current, {
+    const leafletMap = leaflet.map(mapRef.current, {
       center: city,
       zoom
     });
@@ -20,26 +21,36 @@ const Map = ({hotels, type}) => {
       .tileLayer(`https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png`, {
         attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>`
       })
-      .addTo(map);
-    hotels.forEach((hotel) => {
+      .addTo(leafletMap);
+    setMap(leafletMap);
+    return () => {
+      leafletMap.remove();
+    };
+  }, []);
+  useEffect(() => {
+    if (!map) {
+      return () => {
+      };
+    }
+    const markers = hotels.map((hotel) => {
       const customIcon = leaflet.icon({
         iconUrl: `img/pin.svg`,
         iconSize: [30, 30]
       });
-      leaflet.marker({
+      return leaflet.marker({
         lat: hotel.location.latitude,
         lng: hotel.location.longitude
       },
       {
         icon: customIcon
       })
-      .addTo(map)
-      .bindPopup(hotel.title);
+        .addTo(map)
+        .bindPopup(hotel.title);
     });
     return () => {
-      map.remove();
+      markers.forEach((marker) => marker.remove());
     };
-  }, []);
+  }, [map, hotels]);
 
   return (
     <section className={`${type}__map map`} ref={mapRef}></section>
