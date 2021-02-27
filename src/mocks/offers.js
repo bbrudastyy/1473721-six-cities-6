@@ -1,4 +1,4 @@
-import {randomInteger, randomItem} from '../utils/utils';
+import {randomInteger, randomItem, CitesNames} from '../utils/utils';
 
 const AVATAR_URL = `https://i.pravatar.cc/128`;
 
@@ -30,8 +30,6 @@ const DefaultValues = {
 
 const idsHotels = [1, 2, 3, 4, 5, 6];
 const idsComments = [1, 1, 1, 2, 4, 2, 4, 6, 6, 3, 3, 5];
-
-export const citesNames = [`Paris`, `Cologne`, `Brussels`, `Amsterdam`, `Hamburg`, `Dusseldorf`];
 const descriptions = [`A quiet`, `cozy and picturesque`, `that hides`, `behind a river`, `by the unique lightness`];
 const type = [`apartment`, `room`, `house`, `hotel`];
 const goods = [`Wi-Fi`, `Washing machine`, `Towels`, `Heating`, `Coffee machine`, `Baby seat`, `Kitchen`, `Dishwasher`, `Cable TV`];
@@ -41,7 +39,7 @@ const getBeddrooms = () => randomInteger(DefaultValues.MIN_RANDOM_BERDOOMS, Defa
 const getCoordinatesX = () => Number(`${randomInteger(DefaultValues.MIN_LOCATION_X, DefaultValues.MAX_LOCATION_X)}.${randomInteger(DefaultValues.MIN_LOCATION_TENTH_X, DefaultValues.MAX_LOCATION_TENTH_X)}`);
 const getCoordinatesY = () => Number(`${randomInteger(DefaultValues.MIN_LOCATION_Y, DefaultValues.MAX_LOCATION_Y)}.${randomInteger(DefaultValues.MIN_LOCATION_TENTH_Y, DefaultValues.MAX_LOCATION_TENTH_Y)}`);
 const getZoom = () => randomInteger(DefaultValues.MIN_ZOOM, DefaultValues.MAX_ZOOM);
-const getCityName = () => randomItem(citesNames, DefaultValues.MIN);
+const getCityName = () => randomItem(Object.values(CitesNames), DefaultValues.MIN);
 const getDescription = () => descriptions[randomInteger(DefaultValues.MIN, descriptions.length - 1)];
 const getType = () => randomItem(type, DefaultValues.MIN);
 const getNames = () => randomItem(names, DefaultValues.MIN);

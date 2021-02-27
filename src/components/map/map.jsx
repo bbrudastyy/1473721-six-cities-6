@@ -5,7 +5,7 @@ import CardProps from '../card/card.prop';
 
 import "leaflet/dist/leaflet.css";
 
-const Map = ({hotels, type}) => {
+const Map = ({hotels, type, activeOffer}) => {
   const firstHotel = hotels[0];
   const mapRef = useRef();
   const city = [firstHotel.city.location.latitude, firstHotel.city.location.longitude];
@@ -33,8 +33,13 @@ const Map = ({hotels, type}) => {
       };
     }
     const markers = hotels.map((hotel) => {
+      let iconUrl = `img/pin.svg`;
+      if (hotel.id === activeOffer.id) {
+        iconUrl = `img/pin-active.svg`;
+      }
+
       const customIcon = leaflet.icon({
-        iconUrl: `img/pin.svg`,
+        iconUrl,
         iconSize: [30, 30]
       });
       return leaflet.marker({
@@ -50,7 +55,7 @@ const Map = ({hotels, type}) => {
     return () => {
       markers.forEach((marker) => marker.remove());
     };
-  }, [map, hotels]);
+  }, [map, hotels, activeOffer]);
 
   return (
     <section className={`${type}__map map`} ref={mapRef}></section>
@@ -60,6 +65,7 @@ const Map = ({hotels, type}) => {
 Map.propTypes = {
   hotels: PropTypes.arrayOf(CardProps),
   type: PropTypes.string,
+  activeOffer: CardProps
 };
 
 export default Map;

@@ -4,13 +4,21 @@ import {getRatingWidth} from '../../utils/utils';
 import PropTypes from 'prop-types';
 import CardProps from './card.prop';
 
-const Card = ({offer, className}) => {
+const Card = ({offer, className, onActive, onDefaultActive}) => {
   const {price, isPremium, previewImage, title, rating, isFavorite, type, id} = offer;
 
-  return <article className={`${className.article} place-card`}>
+  return <article className={`${className.article} place-card`} onMouseEnter={(evt) => {
+    evt.preventDefault();
+    onActive(offer);
+  }} onMouseLeave={(evt) => {
+    evt.preventDefault();
+    onDefaultActive();
+  }}>
     {isPremium ? <div className="place-card__mark"> <span>Premium</span> </div> : ``}
     <div className={`${className.linkWrapper} place-card__image-wrapper`}>
-      <Link to={`/offer/${id}`}>
+      <Link to={`/offer/${id}`} onClick={() => {
+        onDefaultActive();
+      }}>
         <img className="place-card__image" src={`${previewImage}`} width={260} height={200} alt="Place image" />
       </Link>
     </div>
@@ -43,6 +51,8 @@ const Card = ({offer, className}) => {
 
 Card.propTypes = {
   offer: CardProps,
+  onActive: PropTypes.func,
+  onDefaultActive: PropTypes.func,
   className: PropTypes.shape({
     article: PropTypes.string,
     linkWrapper: PropTypes.string,

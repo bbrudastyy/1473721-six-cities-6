@@ -42,7 +42,7 @@ const CardFavorite = ({hotels}) => {
 };
 
 CardFavorite.propTypes = {
-  hotels: PropTypes.arrayOf(CardProps)
+  hotels: PropTypes.arrayOf(CardProps),
 };
 
 export default CardFavorite;

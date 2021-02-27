@@ -10,6 +10,8 @@ import {TypeCard, TypeMap} from '../../utils/utils';
 import CardProps from '../card/card.prop';
 import CommentProps from '../comment/comment.prop';
 import Map from '../map/map';
+import {connect} from 'react-redux';
+import {ActionCreator} from '../../store/action';
 
 const getPhotosContainer = (photos) => {
   if (photos) {
@@ -36,12 +38,12 @@ const getGoodsContainer = (goods) => {
   }
 };
 
-const getOtherPlace = (hotels, name) => {
+const getOtherPlace = (hotels, name, onActive, onDefaultActive) => {
   if (hotels) {
     return <div className="container">
       <section className="near-places places">
         <h2 className="near-places__title">Other places in the {name}</h2>
-        <CardContainer hotels={hotels} containerType={TypeCard.MAIN} />
+        <CardContainer hotels={hotels} containerType={TypeCard.NEAR} onActive={onActive} onDefaultActive={onDefaultActive} />
       </section>
     </div>;
   } else {
@@ -49,7 +51,7 @@ const getOtherPlace = (hotels, name) => {
   }
 };
 
-const OfferScreen = ({hotel, comments, hotels}) => {
+const OfferScreen = ({hotel, comments, hotels, activeOffer, onActive, onDefaultActive}) => {
 
   const {images, isFavorite, title, isPremium, rating, type, bedrooms, maxAdults, price, goods, host, description, city} = hotel;
   const {avatarUrl, isPro} = host;
@@ -116,18 +118,39 @@ const OfferScreen = ({hotel, comments, hotels}) => {
               <Reviews comments={comments}/>
             </div>
           </div>
-          <Map hotels={hotels} type={TypeMap.PROPERTY} />
+          <Map hotels={hotels} type={TypeMap.PROPERTY} activeOffer={activeOffer} />
         </section>
-        {getOtherPlace(hotels, city.name)}
+        {getOtherPlace(hotels, city.name, onActive, onDefaultActive)}
       </main>
     </div>
   );
 };
 
+const mapStateToProps = (state) => ({
+  city: state.city,
+  offersList: state.offersList,
+  offersCount: state.offersCount,
+  typeSort: state.typeSort,
+  activeOffer: state.activeOffer
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onActive(offer) {
+    dispatch(ActionCreator.setActiveOffer(offer));
+  },
+  onDefaultActive() {
+    dispatch(ActionCreator.setDefaultOffer());
+  }
+});
+
 OfferScreen.propTypes = {
   comments: PropTypes.arrayOf(CommentProps),
   hotel: CardProps,
-  hotels: PropTypes.arrayOf(CardProps)
+  hotels: PropTypes.arrayOf(CardProps),
+  activeOffer: PropTypes.object.isRequired,
+  onActive: PropTypes.func,
+  onDefaultActive: PropTypes.func,
 };
 
-export default OfferScreen;
+export {OfferScreen};
+export default connect(mapStateToProps, mapDispatchToProps)(OfferScreen);

@@ -3,7 +3,7 @@ import Card from '../card/card';
 import PropTypes from 'prop-types';
 import CardProps from '../card/card.prop';
 
-const CardNear = ({hotels}) => {
+const CardNear = ({hotels, onActive, onDefaultActive}) => {
   const className = {
     article: `near-places__card`,
     linkWrapper: `near-places__image-wrapper`,
@@ -12,12 +12,14 @@ const CardNear = ({hotels}) => {
   };
 
   return <div className="near-places__list places__list">
-    {hotels.map((offer) => <Card key={`hotel_${offer.id}`} offer={offer} className={className} />)}
+    {hotels.map((offer) => <Card key={`hotel_${offer.id}`} offer={offer} className={className} onActive={onActive} onDefaultActive={onDefaultActive} />)}
   </div>;
 };
 
 CardNear.propTypes = {
-  hotels: PropTypes.arrayOf(CardProps)
+  hotels: PropTypes.arrayOf(CardProps),
+  onActive: PropTypes.func,
+  onDefaultActive: PropTypes.func
 };
 
 export default CardNear;

@@ -2,8 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Card from '../card/card';
 import CardProps from '../card/card.prop';
+import {connect} from 'react-redux';
+import {ActionCreator} from '../../store/action';
 
-const FavoritesList = ({hotels, cityName}) => {
+
+const FavoritesList = ({hotels, cityName, onActive, onDefaultActive}) => {
   const className = {
     article: `favorites__card`,
     linkWrapper: `cities__image-wrapper`,
@@ -22,7 +25,7 @@ const FavoritesList = ({hotels, cityName}) => {
     <div className="favorites__places">
       {hotels.map((hotel) => {
         if (hotel.city.name === cityName) {
-          return <Card key={`hotel_${hotel.id}`} offer={hotel} favoriteScreen={true} className={className} />;
+          return <Card key={`hotel_${hotel.id}`} offer={hotel} className={className} onActive={onActive} onDefaultActive={onDefaultActive} />;
         } else {
           return ``;
         }
@@ -31,9 +34,26 @@ const FavoritesList = ({hotels, cityName}) => {
   </li>;
 };
 
+const mapStateToProps = (state) => ({
+  activeOffer: state.activeOffer,
+  stateSort: state.stateSort
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onActive(offer) {
+    dispatch(ActionCreator.setActiveOffer(offer));
+  },
+  onDefaultActive() {
+    dispatch(ActionCreator.setDefaultOffer());
+  },
+});
+
 FavoritesList.propTypes = {
   hotels: PropTypes.arrayOf(CardProps),
-  cityName: PropTypes.string
+  cityName: PropTypes.string,
+  onActive: PropTypes.func,
+  onDefaultActive: PropTypes.func,
 };
 
-export default FavoritesList;
+export {FavoritesList};
+export default connect(mapStateToProps, mapDispatchToProps)(FavoritesList);
