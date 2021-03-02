@@ -23,10 +23,12 @@ const Map = ({hotels, type, activeOffer}) => {
       })
       .addTo(leafletMap);
     setMap(leafletMap);
+
     return () => {
       leafletMap.remove();
     };
   }, []);
+
   useEffect(() => {
     if (!map) {
       return () => {

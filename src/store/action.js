@@ -1,4 +1,5 @@
 import {getHotelsByCity, getSortHotels} from '../utils/utils';
+import {adaptToClient} from './api-actions';
 
 export const ActionType = {
   CITY_CHANGE: `main/cityChange`,
@@ -8,7 +9,11 @@ export const ActionType = {
   FILL_SORT_LIST: `main/fillSortList`,
   SET_ACTIVE_OFFER: `main/setActiveOffer`,
   SET_DEFAULT_OFFER: `main/setDefaultOffer`,
-  SET_STATE_SORT: `main/setStateSort`
+  SET_STATE_SORT: `main/setStateSort`,
+  LOAD_HOTELS: `data/loadHotels`,
+  LOAD_NEAR_HOTELS: `data/loadNearHotels`,
+  LOAD_COMMENTS: `data/loadHotels`,
+  REQUIRED_AUTHORIZATION: `user/requiredAuthorization`,
 };
 
 export const ActionCreator = {
@@ -42,6 +47,22 @@ export const ActionCreator = {
   }),
   setStateSort: (sortState) => ({
     type: ActionType.SET_STATE_SORT,
-    payload: !sortState
+    payload: !sortState,
+  }),
+  loadHotels: (hotels) => ({
+    type: ActionType.LOAD_HOTELS,
+    payload: hotels.map((hotel) => adaptToClient(hotel))
+  }),
+  loadNearHotels: (hotels) => ({
+    type: ActionType.LOAD_NEAR_HOTELS,
+    payload: hotels
+  }),
+  loadComments: (hotels) => ({
+    type: ActionType.LOAD_COMMENTS,
+    payload: hotels
+  }),
+  requireAuthorization: (status) => ({
+    type: ActionType.REQUIRED_AUTHORIZATION,
+    payload: status,
   })
 };

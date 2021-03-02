@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Header from '../header/header';
 import Map from '../map/map';
 import CityNameItem from '../city-name-item/city-name-item';
@@ -10,6 +10,8 @@ import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action';
 import {CitesNames} from '../../utils/utils';
 import SortItem from '../sort-item/sort-item';
+import LoadingScreen from '../loading-screen/loading-screen';
+import {fetchHotelsList} from '../../store/api-actions';
 
 const getCitiesContainer = (offersList, offersCount, city, onSort, typeSort, hotels, onActive, onDefaultActive, activeOffer, stateSort, onStateSort) => {
   if (offersList.length !== 0) {
@@ -52,7 +54,21 @@ const getCitiesContainer = (offersList, offersCount, city, onSort, typeSort, hot
 };
 
 const MainScreen = (props) => {
-  const {offersCount, hotels, city, onUserCity, offersList, onSort, typeSort, onActive, onDefaultActive, activeOffer, stateSort, onStateSort} = props;
+  const {offersCount, hotels, city, onUserCity, offersList, onSort, typeSort, onActive, onDefaultActive, activeOffer, stateSort, onStateSort, isDataLoaded, onLoadData} = props;
+
+  useEffect(() => {
+    if (!isDataLoaded) {
+      onLoadData();
+    }
+    onUserCity(CitesNames.PARIS, hotels);
+  }, [isDataLoaded, hotels]);
+
+  if (!isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
+
   return <div className="page page--gray page--main">
     <Header/>
     <main className={`page__main page__main--index ${offersList.length === 0 ? `page__main--index-empty` : ``}`}>
@@ -83,7 +99,9 @@ MainScreen.propTypes = {
   onDefaultActive: PropTypes.func,
   activeOffer: CardProps,
   stateSort: PropTypes.bool,
-  onStateSort: PropTypes.func
+  onStateSort: PropTypes.func,
+  isDataLoaded: PropTypes.bool.isRequired,
+  onLoadData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -92,7 +110,9 @@ const mapStateToProps = (state) => ({
   offersCount: state.offersCount,
   typeSort: state.typeSort,
   activeOffer: state.activeOffer,
-  stateSort: state.stateSort
+  stateSort: state.stateSort,
+  isDataLoaded: state.isDataLoaded,
+  hotels: state.hotels
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -114,7 +134,12 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onStateSort(sortState) {
     dispatch(ActionCreator.setStateSort(sortState));
-  }
+  },
+  onLoadData() {
+    dispatch(fetchHotelsList());
+    // dispatch(fetchNearHotelsList());
+    // dispatch(fetchCommentsList());
+  },
 });
 
 export {MainScreen};

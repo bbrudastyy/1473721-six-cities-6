@@ -1,4 +1,5 @@
-import {randomInteger, randomItem, CitesNames} from '../utils/utils';
+// import {randomInteger, randomItem, CitesNames} from '../utils/utils';
+import {randomInteger, randomItem} from '../utils/utils';
 
 const AVATAR_URL = `https://i.pravatar.cc/128`;
 
@@ -28,24 +29,24 @@ const DefaultValues = {
   OFFERS_COUNT: 4,
 };
 
-const idsHotels = [1, 2, 3, 4, 5, 6];
+// const idsHotels = [1, 2, 3, 4, 5, 6];
 const idsComments = [1, 1, 1, 2, 4, 2, 4, 6, 6, 3, 3, 5];
-const descriptions = [`A quiet`, `cozy and picturesque`, `that hides`, `behind a river`, `by the unique lightness`];
-const type = [`apartment`, `room`, `house`, `hotel`];
-const goods = [`Wi-Fi`, `Washing machine`, `Towels`, `Heating`, `Coffee machine`, `Baby seat`, `Kitchen`, `Dishwasher`, `Cable TV`];
+// const descriptions = [`A quiet`, `cozy and picturesque`, `that hides`, `behind a river`, `by the unique lightness`];
+// const type = [`apartment`, `room`, `house`, `hotel`];
+// const goods = [`Wi-Fi`, `Washing machine`, `Towels`, `Heating`, `Coffee machine`, `Baby seat`, `Kitchen`, `Dishwasher`, `Cable TV`];
 const names = [`Bogdan`, `Vladislav`, `Anna`, `Valeria`, `Anton`, `Igor`, `Kate`];
 
-const getBeddrooms = () => randomInteger(DefaultValues.MIN_RANDOM_BERDOOMS, DefaultValues.MAX_RANDOM_BERDOOMS);
-const getCoordinatesX = () => Number(`${randomInteger(DefaultValues.MIN_LOCATION_X, DefaultValues.MAX_LOCATION_X)}.${randomInteger(DefaultValues.MIN_LOCATION_TENTH_X, DefaultValues.MAX_LOCATION_TENTH_X)}`);
-const getCoordinatesY = () => Number(`${randomInteger(DefaultValues.MIN_LOCATION_Y, DefaultValues.MAX_LOCATION_Y)}.${randomInteger(DefaultValues.MIN_LOCATION_TENTH_Y, DefaultValues.MAX_LOCATION_TENTH_Y)}`);
-const getZoom = () => randomInteger(DefaultValues.MIN_ZOOM, DefaultValues.MAX_ZOOM);
-const getCityName = () => randomItem(Object.values(CitesNames), DefaultValues.MIN);
-const getDescription = () => descriptions[randomInteger(DefaultValues.MIN, descriptions.length - 1)];
-const getType = () => randomItem(type, DefaultValues.MIN);
+// const getBeddrooms = () => randomInteger(DefaultValues.MIN_RANDOM_BERDOOMS, DefaultValues.MAX_RANDOM_BERDOOMS);
+// const getCoordinatesX = () => Number(`${randomInteger(DefaultValues.MIN_LOCATION_X, DefaultValues.MAX_LOCATION_X)}.${randomInteger(DefaultValues.MIN_LOCATION_TENTH_X, DefaultValues.MAX_LOCATION_TENTH_X)}`);
+// const getCoordinatesY = () => Number(`${randomInteger(DefaultValues.MIN_LOCATION_Y, DefaultValues.MAX_LOCATION_Y)}.${randomInteger(DefaultValues.MIN_LOCATION_TENTH_Y, DefaultValues.MAX_LOCATION_TENTH_Y)}`);
+// const getZoom = () => randomInteger(DefaultValues.MIN_ZOOM, DefaultValues.MAX_ZOOM);
+// const getCityName = () => randomItem(Object.values(CitesNames), DefaultValues.MIN);
+// const getDescription = () => descriptions[randomInteger(DefaultValues.MIN, descriptions.length - 1)];
+// const getType = () => randomItem(type, DefaultValues.MIN);
 const getNames = () => randomItem(names, DefaultValues.MIN);
-const getPrice = () => randomInteger(DefaultValues.MIN, DefaultValues.MAX_PRICE);
-const getAdults = () => randomInteger(DefaultValues.MIN, DefaultValues.MAX_ADULTS);
-const getPreviewPhoto = () => `img/apartment-0${randomInteger(DefaultValues.MIN_FOR_PHOTO, DefaultValues.MAX_FOR_PHOTO)}.jpg`;
+// const getPrice = () => randomInteger(DefaultValues.MIN, DefaultValues.MAX_PRICE);
+// const getAdults = () => randomInteger(DefaultValues.MIN, DefaultValues.MAX_ADULTS);
+// const getPreviewPhoto = () => `img/apartment-0${randomInteger(DefaultValues.MIN_FOR_PHOTO, DefaultValues.MAX_FOR_PHOTO)}.jpg`;
 // const getRandomDate = () => formDate(`${randomInteger(DefaultValues.MIN_YEAR_VALUE, DefaultValues.MAX_YEAR_VALUE)}-${randomInteger(DefaultValues.MIN_MONTH_VALUE, DefaultValues.MAX_MONTH_VALUE)}-${randomInteger(DefaultValues.MIN_DAY_VALUE, DefaultValues.MAX_DAY_VALUE)}-${randomInteger(DefaultValues.MIN_HOUR_VALUE, DefaultValues.MAX_HOUR_VALUE)}:${getRandomInteger(DefaultValues.MIN_MINUTE_VALUE, DefaultValues.MAX_MINUTE_VALUE)}`, `DD/MM/YY HH:mm`);
 const getRating = () => {
   const rating = Number(`${randomInteger(DefaultValues.MIN, DefaultValues.MAX_RATING)}.${randomInteger(DefaultValues.MIN, DefaultValues.MAX_RATING_TENTH)}`);
@@ -56,14 +57,14 @@ const getRating = () => {
   }
 };
 
-const getGoods = () => {
-  const count = randomInteger(DefaultValues.MIN, goods.length);
-  const result = [];
-  for (let i = DefaultValues.MIN; i < count; i++) {
-    result.push(goods[randomInteger(DefaultValues.MIN, goods.length - 1)]);
-  }
-  return result;
-};
+// const getGoods = () => {
+//   const count = randomInteger(DefaultValues.MIN, goods.length);
+//   const result = [];
+//   for (let i = DefaultValues.MIN; i < count; i++) {
+//     result.push(goods[randomInteger(DefaultValues.MIN, goods.length - 1)]);
+//   }
+//   return result;
+// };
 
 const getState = () => {
   if (randomInteger(DefaultValues.MIN, DefaultValues.MAX_PRO) === DefaultValues.MAX_PRO) {
@@ -73,51 +74,51 @@ const getState = () => {
   }
 };
 
-const getOfferPhoto = () => {
-  const photos = [];
-  for (let i = 0; i < randomInteger(DefaultValues.MIN, DefaultValues.MAX_RANDOM_PHOTO); i++) {
-    photos.push(`img/apartment-0${randomInteger(DefaultValues.MIN + 1, DefaultValues.MAX_FOR_PHOTO - 1)}.jpg`);
-  }
-  return photos;
-};
+// const getOfferPhoto = () => {
+//   const photos = [];
+//   for (let i = 0; i < randomInteger(DefaultValues.MIN, DefaultValues.MAX_RANDOM_PHOTO); i++) {
+//     photos.push(`img/apartment-0${randomInteger(DefaultValues.MIN + 1, DefaultValues.MAX_FOR_PHOTO - 1)}.jpg`);
+//   }
+//   return photos;
+// };
 
-const getHotel = (id) => {
-  return {
-    bedrooms: getBeddrooms(),
-    city: {
-      location: {
-        latitude: 52.370216,
-        longitude: 4.895168,
-        zoom: getZoom()
-      },
-      name: getCityName()
-      // name: `Amsterdam`
-    },
-    description: getDescription(),
-    goods: getGoods(),
-    host: {
-      avatarUrl: `${AVATAR_URL}?rnd=${Math.random()}`,
-      id: new Date() * Math.random(),
-      isPro: getState(),
-      name: getNames()
-    },
-    id,
-    images: getOfferPhoto(),
-    isFavorite: getState(),
-    isPremium: getState(),
-    location: {
-      latitude: getCoordinatesX(),
-      longitude: getCoordinatesY(),
-      zoom: getZoom()
-    },
-    maxAdults: getAdults(),
-    previewImage: getPreviewPhoto(),
-    price: getPrice(),
-    rating: getRating(),
-    title: `Beautiful & luxurious studio at great ${id}`,
-    type: getType()
-  };
-};
+// const getHotel = (id) => {
+//   return {
+//     bedrooms: getBeddrooms(),
+//     city: {
+//       location: {
+//         latitude: 52.370216,
+//         longitude: 4.895168,
+//         zoom: getZoom()
+//       },
+//       name: getCityName()
+//       // name: `Amsterdam`
+//     },
+//     description: getDescription(),
+//     goods: getGoods(),
+//     host: {
+//       avatarUrl: `${AVATAR_URL}?rnd=${Math.random()}`,
+//       id: new Date() * Math.random(),
+//       isPro: getState(),
+//       name: getNames()
+//     },
+//     id,
+//     images: getOfferPhoto(),
+//     isFavorite: getState(),
+//     isPremium: getState(),
+//     location: {
+//       latitude: getCoordinatesX(),
+//       longitude: getCoordinatesY(),
+//       zoom: getZoom()
+//     },
+//     maxAdults: getAdults(),
+//     previewImage: getPreviewPhoto(),
+//     price: getPrice(),
+//     rating: getRating(),
+//     title: `Beautiful & luxurious studio at great ${id}`,
+//     type: getType()
+//   };
+// };
 
 const getComment = (id) => {
   return {
@@ -134,13 +135,13 @@ const getComment = (id) => {
   };
 };
 
-const getHotelsMocks = () => {
-  return idsHotels.map((id) => getHotel(id));
-};
+// const getHotelsMocks = () => {
+//   return idsHotels.map((id) => getHotel(id));
+// };
 
 const getCommentsMocks = () => {
   return idsComments.map((id) => getComment(id));
 };
 
-export const hotels = getHotelsMocks();
+// export const hotels = getHotelsMocks();
 export const comments = getCommentsMocks();

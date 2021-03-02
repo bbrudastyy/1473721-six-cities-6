@@ -2,29 +2,30 @@ import React from 'react';
 import MainScreen from '../main-screen/main-screen';
 import LoginScreen from '../login-screen/login';
 import FavoritesScreen from '../favorites-screen/favorites';
-import OfferScreen from '../offer-screen/offer-screen';
+// import OfferScreen from '../offer-screen/offer-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import {Switch, Route, BrowserRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const getFavoritesHotels = (hotels) => hotels.filter((hotel) => hotel.isFavorite);
+// const getFavoritesHotels = (hotels) => hotels.filter((hotel) => hotel.isFavorite);
 
-const App = ({hotels, comments}) => {
+// const App = ({hotels, comments}) => {
+const App = () => {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <MainScreen
-            hotels={hotels} />
+          <MainScreen />
         </Route>
         <Route exact path="/login">
           <LoginScreen />
         </Route>
         <Route exact path="/favorites">
-          <FavoritesScreen
-            hotels={getFavoritesHotels(hotels)} />
+          {/* <FavoritesScreen
+            hotels={getFavoritesHotels(hotels)} /> */}
+          <FavoritesScreen/>
         </Route>
-        <Route exact path="/offer/:id"
+        {/* <Route exact path="/offer/:id"
           render={({match}) => {
             const {id} = match.params;
             const hotel = hotels.find((element) => element.id === +id);
@@ -32,7 +33,7 @@ const App = ({hotels, comments}) => {
             const hotelComments = comments.filter((comment) => comment.id === +id);
             return <OfferScreen hotel={hotel} comments={hotelComments} hotels={hotelOthers} />;
           }} >
-        </Route>
+        </Route> */}
         <Route>
           <NotFoundScreen />
         </Route>
@@ -42,7 +43,6 @@ const App = ({hotels, comments}) => {
 };
 
 App.propTypes = {
-  hotels: PropTypes.array.isRequired,
   comments: PropTypes.array
 };
 

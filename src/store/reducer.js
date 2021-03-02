@@ -1,16 +1,18 @@
 import {ActionType} from './action';
-import {hotels} from '../mocks/offers';
-import {getHotelsByCity, CitesNames, TypeSort} from '../utils/utils';
-
-const offers = getHotelsByCity(hotels, CitesNames.PARIS);
+import {CitesNames, TypeSort, AuthorizationStatus} from '../utils/utils';
 
 const initialState = {
   city: CitesNames.PARIS,
-  offersList: offers,
-  offersCount: offers.length,
+  offersList: [],
+  offersCount: null,
   typeSort: TypeSort.POPULAR,
   activeOffer: {id: -1},
-  stateSort: false
+  stateSort: false,
+  hotels: [],
+  nearHotels: [],
+  comments: [],
+  authorizationStatus: AuthorizationStatus.NO_AUTH,
+  isDataLoaded: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -54,6 +56,29 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         stateSort: action.payload
+      };
+    case ActionType.LOAD_HOTELS:
+      return {
+        ...state,
+        hotels: action.payload
+      };
+    case ActionType.LOAD_NEAR_HOTELS:
+      return {
+        ...state,
+        nearHotels: action.payload,
+        isDataLoaded: true
+      };
+    case ActionType.LOAD_COMMENTS:
+      return {
+        ...state,
+        comments: action.payload,
+        isDataLoaded: true
+      };
+    case ActionType.REQUIRED_AUTHORIZATION:
+      return {
+        ...state,
+        authorizationStatus: action.payload,
+        isDataLoaded: true
       };
     default:
       return {...state};
