@@ -12,7 +12,7 @@ const CardContainer = ({hotels, containerType, onActive, onDefaultActive}) => {
       case TypeCard.MAIN:
         return <CardMain hotels={hotels} onActive={onActive} onDefaultActive={onDefaultActive}/>;
       case TypeCard.FAVORITE:
-        return <CardFavorite hotels={hotels} />;
+        return <CardFavorite hotels={hotels}/>;
       case TypeCard.NEAR:
         return <CardNear hotels={hotels} onActive={onActive} onDefaultActive={onDefaultActive} />;
       default:

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Header from '../header/header';
 import Photo from '../photo/photo';
 import InsideItem from '../inside-item/inside-item';
@@ -12,6 +12,8 @@ import CommentProps from '../comment/comment.prop';
 import Map from '../map/map';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action';
+import {fetchHotel, fetchComments, fetchNear} from '../../store/api-actions';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 const getPhotosContainer = (photos) => {
   if (photos) {
@@ -51,7 +53,19 @@ const getOtherPlace = (hotels, name, onActive, onDefaultActive) => {
   }
 };
 
-const OfferScreen = ({hotel, comments, hotels, activeOffer, onActive, onDefaultActive}) => {
+const OfferScreen = ({id, setOffer, hotel, comments, nearHotels, isHotelLoaded, isCommentsLoaded, isNearLoaded, onActive, onDefaultActive, activeOffer}) => {
+
+  useEffect(() => {
+    if (!isHotelLoaded && !isCommentsLoaded && !isNearLoaded) {
+      setOffer(id);
+    }
+  }, [isHotelLoaded, isCommentsLoaded, isNearLoaded, id]);
+
+  if (!isHotelLoaded || !isCommentsLoaded || !isNearLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   const {images, isFavorite, title, isPremium, rating, type, bedrooms, maxAdults, price, goods, host, description, city} = hotel;
   const {avatarUrl, isPro} = host;
@@ -115,12 +129,12 @@ const OfferScreen = ({hotel, comments, hotels, activeOffer, onActive, onDefaultA
                   </p>
                 </div>
               </div>
-              <Reviews comments={comments}/>
+              <Reviews comments={comments} id={id}/>
             </div>
           </div>
-          <Map hotels={hotels} type={TypeMap.PROPERTY} activeOffer={activeOffer} />
+          <Map hotels={nearHotels} type={TypeMap.PROPERTY} activeOffer={activeOffer} />
         </section>
-        {getOtherPlace(hotels, city.name, onActive, onDefaultActive)}
+        {getOtherPlace(nearHotels, city.name, onActive, onDefaultActive)}
       </main>
     </div>
   );
@@ -131,7 +145,13 @@ const mapStateToProps = (state) => ({
   offersList: state.offersList,
   offersCount: state.offersCount,
   typeSort: state.typeSort,
-  activeOffer: state.activeOffer
+  activeOffer: state.activeOffer,
+  hotel: state.hotel,
+  isHotelLoaded: state.isHotelLoaded,
+  isCommentsLoaded: state.isCommentsLoaded,
+  isNearLoaded: state.isNearLoaded,
+  comments: state.comments,
+  nearHotels: state.nearHotels
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -140,16 +160,26 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onDefaultActive() {
     dispatch(ActionCreator.setDefaultOffer());
+  },
+  setOffer(id) {
+    dispatch(fetchHotel(id));
+    dispatch(fetchComments(id));
+    dispatch(fetchNear(id));
   }
 });
 
 OfferScreen.propTypes = {
   comments: PropTypes.arrayOf(CommentProps),
   hotel: CardProps,
-  hotels: PropTypes.arrayOf(CardProps),
   activeOffer: PropTypes.object.isRequired,
   onActive: PropTypes.func,
   onDefaultActive: PropTypes.func,
+  id: PropTypes.number.isRequired,
+  setOffer: PropTypes.func.isRequired,
+  isHotelLoaded: PropTypes.bool.isRequired,
+  isCommentsLoaded: PropTypes.bool.isRequired,
+  isNearLoaded: PropTypes.bool.isRequired,
+  nearHotels: PropTypes.array
 };
 
 export {OfferScreen};

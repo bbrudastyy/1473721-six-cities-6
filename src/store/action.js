@@ -1,5 +1,5 @@
 import {getHotelsByCity, getSortHotels} from '../utils/utils';
-import {adaptToClient} from './api-actions';
+import {adaptToClientHotel, adaptToClientComment} from './api-actions';
 
 export const ActionType = {
   CITY_CHANGE: `main/cityChange`,
@@ -11,9 +11,13 @@ export const ActionType = {
   SET_DEFAULT_OFFER: `main/setDefaultOffer`,
   SET_STATE_SORT: `main/setStateSort`,
   LOAD_HOTELS: `data/loadHotels`,
+  LOAD_FAVORITE_HOTELS: `data/loadFavoriteHotels`,
   LOAD_NEAR_HOTELS: `data/loadNearHotels`,
-  LOAD_COMMENTS: `data/loadHotels`,
+  LOAD_COMMENTS: `data/loadComments`,
   REQUIRED_AUTHORIZATION: `user/requiredAuthorization`,
+  SET_LOGIN: `user/setLogin`,
+  LOAD_HOTEL: `main/loadHotel`,
+  SET_DEFAULT_STATE_LOAD: `data/setDefaultStateLoad`,
 };
 
 export const ActionCreator = {
@@ -51,18 +55,33 @@ export const ActionCreator = {
   }),
   loadHotels: (hotels) => ({
     type: ActionType.LOAD_HOTELS,
-    payload: hotels.map((hotel) => adaptToClient(hotel))
-  }),
-  loadNearHotels: (hotels) => ({
-    type: ActionType.LOAD_NEAR_HOTELS,
-    payload: hotels
-  }),
-  loadComments: (hotels) => ({
-    type: ActionType.LOAD_COMMENTS,
-    payload: hotels
+    payload: hotels.map((hotel) => adaptToClientHotel(hotel))
   }),
   requireAuthorization: (status) => ({
     type: ActionType.REQUIRED_AUTHORIZATION,
     payload: status,
+  }),
+  loadFavoriteList: (hotels) => ({
+    type: ActionType.LOAD_FAVORITE_HOTELS,
+    payload: hotels.map((hotel) => adaptToClientHotel(hotel))
+  }),
+  setLogin: (loginName) => ({
+    type: ActionType.SET_LOGIN,
+    payload: loginName
+  }),
+  loadHotel: (hotel) => ({
+    type: ActionType.LOAD_HOTEL,
+    payload: adaptToClientHotel(hotel)
+  }),
+  loadComments: (comments) => ({
+    type: ActionType.LOAD_COMMENTS,
+    payload: comments.map((comment) => adaptToClientComment(comment))
+  }),
+  loadNearHotels: (hotels) => ({
+    type: ActionType.LOAD_NEAR_HOTELS,
+    payload: hotels.map((hotel) => adaptToClientHotel(hotel))
+  }),
+  setDefaultStateLoad: () => ({
+    type: ActionType.SET_DEFAULT_STATE_LOAD
   })
 };

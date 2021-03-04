@@ -4,6 +4,7 @@ import {CitesNames, TypeSort, AuthorizationStatus} from '../utils/utils';
 const initialState = {
   city: CitesNames.PARIS,
   offersList: [],
+  favoriteList: [],
   offersCount: null,
   typeSort: TypeSort.POPULAR,
   activeOffer: {id: -1},
@@ -12,7 +13,13 @@ const initialState = {
   nearHotels: [],
   comments: [],
   authorizationStatus: AuthorizationStatus.NO_AUTH,
-  isDataLoaded: false
+  isDataLoaded: false,
+  isHotelLoaded: false,
+  isCommentsLoaded: false,
+  isNearLoaded: false,
+  isFavoriteLoaded: false,
+  loginName: ``,
+  hotel: {}
 };
 
 const reducer = (state = initialState, action) => {
@@ -50,7 +57,7 @@ const reducer = (state = initialState, action) => {
     case ActionType.SET_DEFAULT_OFFER:
       return {
         ...state,
-        activeOffer: action.payload
+        activeOffer: action.payload,
       };
     case ActionType.SET_STATE_SORT:
       return {
@@ -62,23 +69,47 @@ const reducer = (state = initialState, action) => {
         ...state,
         hotels: action.payload
       };
-    case ActionType.LOAD_NEAR_HOTELS:
-      return {
-        ...state,
-        nearHotels: action.payload,
-        isDataLoaded: true
-      };
-    case ActionType.LOAD_COMMENTS:
-      return {
-        ...state,
-        comments: action.payload,
-        isDataLoaded: true
-      };
     case ActionType.REQUIRED_AUTHORIZATION:
       return {
         ...state,
         authorizationStatus: action.payload,
         isDataLoaded: true
+      };
+    case ActionType.LOAD_FAVORITE_HOTELS:
+      return {
+        ...state,
+        favoriteList: action.payload,
+        isFavoriteLoaded: true
+      };
+    case ActionType.SET_LOGIN:
+      return {
+        ...state,
+        loginName: action.payload
+      };
+    case ActionType.LOAD_HOTEL:
+      return {
+        ...state,
+        hotel: action.payload,
+        isHotelLoaded: true
+      };
+    case ActionType.LOAD_COMMENTS:
+      return {
+        ...state,
+        comments: action.payload,
+        isCommentsLoaded: true
+      };
+    case ActionType.LOAD_NEAR_HOTELS:
+      return {
+        ...state,
+        nearHotels: action.payload,
+        isNearLoaded: true
+      };
+    case ActionType.SET_DEFAULT_STATE_LOAD:
+      return {
+        ...state,
+        isNearLoaded: false,
+        isCommentsLoaded: false,
+        isHotelLoaded: false
       };
     default:
       return {...state};

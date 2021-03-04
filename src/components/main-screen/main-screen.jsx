@@ -60,7 +60,7 @@ const MainScreen = (props) => {
     if (!isDataLoaded) {
       onLoadData();
     }
-    onUserCity(CitesNames.PARIS, hotels);
+    onUserCity(city, hotels);
   }, [isDataLoaded, hotels]);
 
   if (!isDataLoaded) {
@@ -137,8 +137,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onLoadData() {
     dispatch(fetchHotelsList());
-    // dispatch(fetchNearHotelsList());
-    // dispatch(fetchCommentsList());
   },
 });
 

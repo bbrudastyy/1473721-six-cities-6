@@ -32,7 +32,7 @@ const Comment = ({comment}) => {
 };
 
 Comment.propTypes = {
-  comment: CommentProps
+  comment: CommentProps,
 };
 
 export default Comment;

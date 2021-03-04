@@ -5,7 +5,6 @@ import CardProps from '../card/card.prop';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action';
 
-
 const FavoritesList = ({hotels, cityName, onActive, onDefaultActive}) => {
   const className = {
     article: `favorites__card`,
@@ -36,7 +35,8 @@ const FavoritesList = ({hotels, cityName, onActive, onDefaultActive}) => {
 
 const mapStateToProps = (state) => ({
   activeOffer: state.activeOffer,
-  stateSort: state.stateSort
+  stateSort: state.stateSort,
+  favoriteList: state.favoriteList
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -45,14 +45,14 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onDefaultActive() {
     dispatch(ActionCreator.setDefaultOffer());
-  },
+  }
 });
 
 FavoritesList.propTypes = {
   hotels: PropTypes.arrayOf(CardProps),
   cityName: PropTypes.string,
   onActive: PropTypes.func,
-  onDefaultActive: PropTypes.func,
+  onDefaultActive: PropTypes.func
 };
 
 export {FavoritesList};

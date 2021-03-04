@@ -6,15 +6,12 @@ import CardProps from '../card/card.prop';
 import "leaflet/dist/leaflet.css";
 
 const Map = ({hotels, type, activeOffer}) => {
-  const firstHotel = hotels[0];
   const mapRef = useRef();
-  const city = [firstHotel.city.location.latitude, firstHotel.city.location.longitude];
-  const zoom = 9;
+  const zoom = 11;
   const [map, setMap] = useState(null);
 
   useEffect(() => {
     const leafletMap = leaflet.map(mapRef.current, {
-      center: city,
       zoom
     });
     leaflet
@@ -34,6 +31,14 @@ const Map = ({hotels, type, activeOffer}) => {
       return () => {
       };
     }
+
+    if (hotels.length) {
+      map.setView({
+        lat: hotels[0].location.latitude,
+        lng: hotels[0].location.longitude
+      });
+    }
+
     const markers = hotels.map((hotel) => {
       let iconUrl = `img/pin.svg`;
       if (hotel.id === activeOffer.id) {

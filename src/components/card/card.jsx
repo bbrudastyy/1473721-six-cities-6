@@ -1,11 +1,14 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import {getRatingWidth} from '../../utils/utils';
 import PropTypes from 'prop-types';
 import CardProps from './card.prop';
+import {connect} from 'react-redux';
+import {ActionCreator} from '../../store/action';
 
-const Card = ({offer, className, onActive, onDefaultActive}) => {
+const Card = ({offer, className, onActive, onDefaultActive, setDefaultStateLoad}) => {
   const {price, isPremium, previewImage, title, rating, isFavorite, type, id} = offer;
+  const history = useHistory();
 
   return <article className={`${className.article} place-card`} onMouseEnter={(evt) => {
     evt.preventDefault();
@@ -18,6 +21,8 @@ const Card = ({offer, className, onActive, onDefaultActive}) => {
     <div className={`${className.linkWrapper} place-card__image-wrapper`}>
       <Link to={`/offer/${id}`} onClick={() => {
         onDefaultActive();
+        setDefaultStateLoad();
+        history.push(`/offer/${id}`);
       }}>
         <img className="place-card__image" src={`${previewImage}`} width={260} height={200} alt="Place image" />
       </Link>
@@ -58,7 +63,19 @@ Card.propTypes = {
     linkWrapper: PropTypes.string,
     divInfo: PropTypes.string,
     button: PropTypes.string
-  })
+  }),
+  setDefaultStateLoad: PropTypes.func.isRequired
 };
 
-export default Card;
+const mapStateToProps = (state) => ({
+  hotel: state.hotel
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setDefaultStateLoad() {
+    dispatch(ActionCreator.setDefaultStateLoad());
+  }
+});
+
+export {Card};
+export default connect(mapStateToProps, mapDispatchToProps)(Card);
