@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 
 const RATING_ZERO = 0;
 const NUMBER_FOR_RATING = 20;
+const VALUE_FOR_SPLICE = 1;
 
 export const TypeCard = {
   MAIN: `cities__place`,
@@ -74,3 +75,15 @@ const sortTopRated = (pointA, pointB) => pointB.rating - pointA.rating;
 export const getHotelsByCity = (hotels, cityName) => hotels.filter((hotel) => hotel.city.name === cityName);
 export const randomItem = (elements, min) => elements[randomInteger(min, elements.length - 1)];
 export const formDate = (value, format) => dayjs(value).format(format);
+
+export const changeHotel = (hotels, hotel) => {
+  let itemNumber = null;
+  hotels.forEach((currentValue, index) => {
+    if (currentValue.id === hotel.id) {
+      itemNumber = index;
+    }
+  });
+  hotels.splice(itemNumber, VALUE_FOR_SPLICE, hotel);
+
+  return hotels;
+};

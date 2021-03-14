@@ -111,6 +111,12 @@ const reducer = (state = initialState, action) => {
         isCommentsLoaded: false,
         isHotelLoaded: false
       };
+    case ActionType.SET_FAVORITE_HOTEL:
+      return {
+        ...state,
+        hotels: action.payload,
+        isFavoriteLoaded: false
+      };
     default:
       return {...state};
   }

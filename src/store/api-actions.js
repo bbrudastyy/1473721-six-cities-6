@@ -1,6 +1,11 @@
 import {ActionCreator} from "./action";
 import {AuthorizationStatus} from "../utils/utils";
 
+const BOOL_TRANSLATE_NUM = {
+  false: 1,
+  true: 0
+};
+
 export const fetchHotelsList = () => (dispatch, _getState, api) => (
   api.get(`/hotels`)
     .then(({data}) => dispatch(ActionCreator.loadHotels(data)))
@@ -45,14 +50,14 @@ export const login = ({login: email, password}) => (dispatch, _getState, api) =>
     .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
 );
 
-export const commentPost = (id, data) => (dispatch, _getState, api) => (
-  api.post(`/comments/${id}`, data)
-    .then((res) => dispatch(ActionCreator.loadComments(res)))
+export const commentPost = (id, {rating, comment}) => (dispatch, _getState, api) => (
+  api.post(`/comments/${id}`, {rating, comment})
+    .then(({data}) => dispatch(ActionCreator.loadComments(data)))
 );
 
-export const favoritePost = ({login: email, password}) => (dispatch, _getState, api) => (
-  api.post(`/login`, {email, password})
-    .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
+export const favoritePost = (id, isFavorite, offersList) => (dispatch, _getState, api) => (
+  api.post(`/favorite/${id}/${BOOL_TRANSLATE_NUM[isFavorite]}`)
+    .then(({data}) => dispatch(ActionCreator.setFavoriteHotel(adaptToClientHotel(data), offersList)))
 );
 
 export const adaptToClientHotel = (hotel) => {

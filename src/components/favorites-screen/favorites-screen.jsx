@@ -8,13 +8,13 @@ import cardProp from '../card/card.prop';
 import {fetchHotelsFavotiteList} from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
 
-const FavoritesScreen = ({favoriteList, loadFavorite, isFavoriteLoaded}) => {
+const FavoritesScreen = ({favoriteList, loadFavorite, isFavoriteLoaded, hotels}) => {
 
   useEffect(() => {
     if (!isFavoriteLoaded) {
       loadFavorite();
     }
-  }, [isFavoriteLoaded]);
+  }, [isFavoriteLoaded, hotels]);
 
   if (!isFavoriteLoaded) {
     return (
@@ -40,7 +40,8 @@ const FavoritesScreen = ({favoriteList, loadFavorite, isFavoriteLoaded}) => {
 FavoritesScreen.propTypes = {
   favoriteList: PropTypes.arrayOf(cardProp),
   loadFavorite: PropTypes.func.isRequired,
-  isFavoriteLoaded: PropTypes.bool.isRequired
+  isFavoriteLoaded: PropTypes.bool.isRequired,
+  hotels: PropTypes.arrayOf(cardProp)
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -51,7 +52,8 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => ({
   favoriteList: state.favoriteList,
-  isFavoriteLoaded: state.isFavoriteLoaded
+  isFavoriteLoaded: state.isFavoriteLoaded,
+  hotels: state.hotels
 });
 
 export {FavoritesScreen};

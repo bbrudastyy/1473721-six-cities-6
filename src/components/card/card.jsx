@@ -1,12 +1,13 @@
 import React from 'react';
 import {Link, useHistory} from 'react-router-dom';
-import {getRatingWidth} from '../../utils/utils';
+import {AuthorizationStatus, getRatingWidth} from '../../utils/utils';
 import PropTypes from 'prop-types';
 import CardProps from './card.prop';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action';
+import {favoritePost} from '../../store/api-actions';
 
-const Card = ({offer, className, onActive, onDefaultActive, setDefaultStateLoad}) => {
+const Card = ({offer, className, onActive, onDefaultActive, setDefaultStateLoad, setIsFavorite, hotels, authorizationStatus}) => {
   const {price, isPremium, previewImage, title, rating, isFavorite, type, id} = offer;
   const history = useHistory();
 
@@ -33,7 +34,14 @@ const Card = ({offer, className, onActive, onDefaultActive, setDefaultStateLoad}
           <b className="place-card__price-value">{`€${price}`}</b>
           <span className="place-card__price-text">/&nbsp;night</span>
         </div>
-        <button className={`place-card__bookmark-button ${isFavorite ? className.button : ``}  button`} type="button">
+        <button className={`place-card__bookmark-button ${isFavorite ? className.button : ``}  button`} type="button" onClick={() => {
+          if (authorizationStatus === AuthorizationStatus.AUTH) {
+            setIsFavorite(id, isFavorite, hotels);
+          } else {
+            history.push(`/login`);
+          }
+
+        }}>
           <svg className="place-card__bookmark-icon" width={18} height={19}>
             <use xlinkHref="#icon-bookmark" />
           </svg>
@@ -64,16 +72,24 @@ Card.propTypes = {
     divInfo: PropTypes.string,
     button: PropTypes.string
   }),
-  setDefaultStateLoad: PropTypes.func.isRequired
+  setDefaultStateLoad: PropTypes.func.isRequired,
+  setIsFavorite: PropTypes.func.isRequired,
+  hotels: PropTypes.arrayOf(CardProps),
+  authorizationStatus: PropTypes.string.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  hotel: state.hotel
+  hotel: state.hotel,
+  hotels: state.hotels,
+  authorizationStatus: state.authorizationStatus
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setDefaultStateLoad() {
     dispatch(ActionCreator.setDefaultStateLoad());
+  },
+  setIsFavorite(id, isFavorite, hotels) {
+    dispatch(favoritePost(id, isFavorite, hotels));
   }
 });
 

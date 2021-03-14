@@ -1,4 +1,4 @@
-import {getHotelsByCity, getSortHotels} from '../utils/utils';
+import {changeHotel, getHotelsByCity, getSortHotels} from '../utils/utils';
 import {adaptToClientHotel, adaptToClientComment} from './api-actions';
 
 export const ActionType = {
@@ -18,6 +18,7 @@ export const ActionType = {
   SET_LOGIN: `user/setLogin`,
   LOAD_HOTEL: `main/loadHotel`,
   SET_DEFAULT_STATE_LOAD: `data/setDefaultStateLoad`,
+  SET_FAVORITE_HOTEL: `main/setFavoriteHotel`
 };
 
 export const ActionCreator = {
@@ -83,5 +84,9 @@ export const ActionCreator = {
   }),
   setDefaultStateLoad: () => ({
     type: ActionType.SET_DEFAULT_STATE_LOAD
+  }),
+  setFavoriteHotel: (hotel, hotels) => ({
+    type: ActionType.SET_FAVORITE_HOTEL,
+    payload: changeHotel(hotels, hotel)
   })
 };
