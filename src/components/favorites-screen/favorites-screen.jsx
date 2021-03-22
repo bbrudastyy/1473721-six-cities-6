@@ -1,19 +1,19 @@
 import React, {useEffect} from 'react';
 import Header from '../header/header';
-import PropTypes from 'prop-types';
 import CardContainer from '../card-container/card-container';
 import {TypeCard} from '../../utils/utils';
-import {connect} from "react-redux";
-import cardProp from '../card/card.prop';
+import {useSelector, useDispatch} from 'react-redux';
 import {fetchHotelsFavotiteList} from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
-import {getFavoriteList, getHotels, getIsFavoriteLoaded} from '../../store/data/selectors';
 
-const FavoritesScreen = ({favoriteList, loadFavorite, isFavoriteLoaded, hotels}) => {
+const FavoritesScreen = () => {
+
+  const {favoriteList, isFavoriteLoaded, hotels} = useSelector((state) => state.DATA);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!isFavoriteLoaded) {
-      loadFavorite();
+      dispatch(fetchHotelsFavotiteList());
     }
   }, [isFavoriteLoaded, hotels]);
 
@@ -38,24 +38,4 @@ const FavoritesScreen = ({favoriteList, loadFavorite, isFavoriteLoaded, hotels})
   );
 };
 
-FavoritesScreen.propTypes = {
-  favoriteList: PropTypes.arrayOf(cardProp),
-  loadFavorite: PropTypes.func.isRequired,
-  isFavoriteLoaded: PropTypes.bool.isRequired,
-  hotels: PropTypes.arrayOf(cardProp)
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  loadFavorite() {
-    dispatch(fetchHotelsFavotiteList());
-  }
-});
-
-const mapStateToProps = (state) => ({
-  favoriteList: getFavoriteList(state),
-  isFavoriteLoaded: getIsFavoriteLoaded(state),
-  hotels: getHotels(state)
-});
-
-export {FavoritesScreen};
-export default connect(mapStateToProps, mapDispatchToProps)(FavoritesScreen);
+export default FavoritesScreen;

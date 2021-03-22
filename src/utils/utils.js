@@ -15,7 +15,7 @@ export const TypeMap = {
   PROPERTY: `property`
 };
 
-export const TypeSort = {
+export const SortType = {
   POPULAR: `Popular`,
   LOW_TO_HIGH: `Price: low to high`,
   HIGH_TO_LOW: `Price: high to low`,
@@ -55,13 +55,13 @@ export const getSortHotels = (hotels, sortType, cityName) => {
   const hotelsDefault = getHotelsByCity(hotels, cityName);
   const hotelsCopy = hotelsDefault.slice();
   switch (sortType) {
-    case TypeSort.POPULAR:
+    case SortType.POPULAR:
       return hotelsDefault;
-    case TypeSort.LOW_TO_HIGH:
+    case SortType.LOW_TO_HIGH:
       return hotelsCopy.sort(sortLowToHight);
-    case TypeSort.HIGH_TO_LOW:
+    case SortType.HIGH_TO_LOW:
       return hotelsCopy.sort(sortHighToLow);
-    case TypeSort.TOP_RATED:
+    case SortType.TOP_RATED:
       return hotelsCopy.sort(sortTopRated);
     default:
       return hotelsDefault;

@@ -1,4 +1,5 @@
-import {ActionType} from '../action';
+import {createReducer} from '@reduxjs/toolkit';
+import {loadComments, loadFavoriteList, loadHotel, loadHotels, loadNearHotels, setDefaultStateLoad} from '../action';
 
 const initialState = {
   favoriteList: [],
@@ -12,47 +13,31 @@ const initialState = {
   hotel: null,
 };
 
-const data = (state = initialState, action) => {
-  switch (action.type) {
-    case ActionType.LOAD_HOTELS:
-      return {
-        ...state,
-        hotels: action.payload
-      };
-    case ActionType.LOAD_FAVORITE_HOTELS:
-      return {
-        ...state,
-        favoriteList: action.payload,
-        isFavoriteLoaded: true
-      };
-    case ActionType.LOAD_HOTEL:
-      return {
-        ...state,
-        hotel: action.payload,
-        isHotelLoaded: true
-      };
-    case ActionType.LOAD_COMMENTS:
-      return {
-        ...state,
-        comments: action.payload,
-        isCommentsLoaded: true
-      };
-    case ActionType.LOAD_NEAR_HOTELS:
-      return {
-        ...state,
-        nearHotels: action.payload,
-        isNearLoaded: true
-      };
-    case ActionType.SET_DEFAULT_STATE_LOAD:
-      return {
-        ...state,
-        isNearLoaded: false,
-        isCommentsLoaded: false,
-        isHotelLoaded: false
-      };
-    default:
-      return {...state};
-  }
-};
+const data = createReducer(initialState, (builder) => {
+  builder.addCase(loadHotels, (state, action) => {
+    state.hotels = action.payload;
+  });
+  builder.addCase(loadFavoriteList, (state, action) => {
+    state.favoriteList = action.payload;
+    state.isFavoriteLoaded = true;
+  });
+  builder.addCase(loadHotel, (state, action) => {
+    state.hotel = action.payload;
+    state.isHotelLoaded = true;
+  });
+  builder.addCase(loadComments, (state, action) => {
+    state.comments = action.payload;
+    state.isCommentsLoaded = true;
+  });
+  builder.addCase(loadNearHotels, (state, action) => {
+    state.nearHotels = action.payload;
+    state.isNearLoaded = true;
+  });
+  builder.addCase(setDefaultStateLoad, (state) => {
+    state.isNearLoaded = false;
+    state.isCommentsLoaded = false;
+    state.isHotelLoaded = false;
+  });
+});
 
 export {data};

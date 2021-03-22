@@ -2,10 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Form from '../form/form';
 import Comment from '../comment/comment';
-import CommentProps from '../comment/comment.prop';
-import {connect} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {AuthorizationStatus} from '../../utils/utils';
-import {getAuthorizationStatus} from '../../store/user/selectors';
 
 const getCommentContainer = (comments) => {
   if (comments) {
@@ -17,7 +15,11 @@ const getCommentContainer = (comments) => {
   }
 };
 
-const Reviews = ({comments, id, authorizationStatus}) => {
+const Reviews = ({id}) => {
+
+  const {authorizationStatus} = useSelector((state) => state.USER);
+  const {comments} = useSelector((state) => state.DATA);
+
   return <section className="property__reviews reviews">
     <h2 className="reviews__title">Reviews · <span className="reviews__amount">{comments.length}</span></h2>
     <ul className="reviews__list">
@@ -28,14 +30,7 @@ const Reviews = ({comments, id, authorizationStatus}) => {
 };
 
 Reviews.propTypes = {
-  comments: PropTypes.arrayOf(CommentProps),
   id: PropTypes.number.isRequired,
-  authorizationStatus: PropTypes.string.isRequired
 };
 
-const mapStateToProps = (state) => ({
-  authorizationStatus: getAuthorizationStatus(state)
-});
-
-export {Reviews};
-export default connect(mapStateToProps, null)(Reviews);
+export default Reviews;

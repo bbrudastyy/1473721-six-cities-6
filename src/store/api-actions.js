@@ -1,4 +1,4 @@
-import {ActionCreator} from "./action";
+import {loadComments, loadFavoriteList, loadHotel, loadHotels, loadNearHotels, requireAuthorization, setFavoriteHotel, setLogin} from "./action";
 import {AuthorizationStatus} from "../utils/utils";
 
 const BOOL_TRANSLATE_NUM = {
@@ -8,59 +8,59 @@ const BOOL_TRANSLATE_NUM = {
 
 export const fetchHotelsList = () => (dispatch, _getState, api) => (
   api.get(`/hotels`)
-    .then(({data}) => dispatch(ActionCreator.loadHotels(data)))
+    .then(({data}) => dispatch(loadHotels(data)))
 );
 
 export const fetchHotel = (id) => (dispatch, _getState, api) => (
   api.get(`/hotels/${id}`)
-    .then(({data}) => dispatch(ActionCreator.loadHotel(data)))
+    .then(({data}) => dispatch(loadHotel(data)))
     .catch(() => { })
 );
 
 export const fetchComments = (id) => (dispatch, _getState, api) => (
   api.get(`/comments/${id}`)
-    .then(({data}) => dispatch(ActionCreator.loadComments(data)))
+    .then(({data}) => dispatch(loadComments(data)))
     .catch(() => { })
 );
 
 export const fetchNear = (id) => (dispatch, _getState, api) => (
   api.get(`/hotels/${id}/nearby`)
-    .then(({data}) => dispatch(ActionCreator.loadNearHotels(data)))
+    .then(({data}) => dispatch(loadNearHotels(data)))
     .catch(() => { })
 );
 
 export const fetchHotelsFavotiteList = () => (dispatch, _getState, api) => (
   api.get(`/favorite`)
-    .then(({data}) => dispatch(ActionCreator.loadFavoriteList(data)))
+    .then(({data}) => dispatch(loadFavoriteList(data)))
 );
 
 export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(`/login`)
     .then(({data}) => {
-      dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH));
-      dispatch(ActionCreator.setLogin(data.email));
+      dispatch(requireAuthorization(AuthorizationStatus.AUTH));
+      dispatch(setLogin(data.email));
     })
     .catch(() => { })
 );
 
 export const logout = () => (dispatch, _getState, api) => (
   api.get(`/logout`)
-    .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH)))
+    .then(() => dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH)))
 );
 
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (
   api.post(`/login`, {email, password})
-    .then(() => dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.AUTH)))
+    .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
 );
 
 export const commentPost = (id, {rating, comment}) => (dispatch, _getState, api) => (
   api.post(`/comments/${id}`, {rating, comment})
-    .then(({data}) => dispatch(ActionCreator.loadComments(data)))
+    .then(({data}) => dispatch(loadComments(data)))
 );
 
 export const favoritePost = (id, isFavorite, offersList) => (dispatch, _getState, api) => (
   api.post(`/favorite/${id}/${BOOL_TRANSLATE_NUM[isFavorite]}`)
-    .then(({data}) => dispatch(ActionCreator.setFavoriteHotel(adaptToClientHotel(data), offersList)))
+    .then(({data}) => dispatch(setFavoriteHotel(adaptToClientHotel(data), offersList)))
 );
 
 export const adaptToClientHotel = (hotel) => {

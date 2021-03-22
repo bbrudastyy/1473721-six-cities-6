@@ -1,17 +1,20 @@
 import React from 'react';
 import {Link, useHistory} from 'react-router-dom';
-import {AuthorizationStatus, getRatingWidth} from '../../utils/utils';
+import {useSelector, useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
+import {AuthorizationStatus, getRatingWidth} from '../../utils/utils';
 import CardProps from './card.prop';
-import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/action';
+import {setDefaultStateLoad} from '../../store/action';
 import {favoritePost} from '../../store/api-actions';
-import {getHotel, getHotels} from '../../store/data/selectors';
-import {getAuthorizationStatus} from '../../store/user/selectors';
 
-const Card = ({offer, className, onActive, onDefaultActive, setDefaultStateLoad, setIsFavorite, hotels, authorizationStatus}) => {
+const Card = ({offer, className, onActive, onDefaultActive}) => {
+  const {hotels} = useSelector((state) => state.DATA);
+  const {authorizationStatus} = useSelector((state) => state.USER);
+
   const {price, isPremium, previewImage, title, rating, isFavorite, type, id} = offer;
   const history = useHistory();
+
+  const dispatch = useDispatch();
 
   return <article className={`${className.article} place-card`} onMouseEnter={(evt) => {
     evt.preventDefault();
@@ -24,7 +27,7 @@ const Card = ({offer, className, onActive, onDefaultActive, setDefaultStateLoad,
     <div className={`${className.linkWrapper} place-card__image-wrapper`}>
       <Link to={`/offer/${id}`} onClick={() => {
         onDefaultActive();
-        setDefaultStateLoad();
+        dispatch(setDefaultStateLoad());
         history.push(`/offer/${id}`);
       }}>
         <img className="place-card__image" src={`${previewImage}`} width={260} height={200} alt="Place image" />
@@ -38,11 +41,10 @@ const Card = ({offer, className, onActive, onDefaultActive, setDefaultStateLoad,
         </div>
         <button className={`place-card__bookmark-button ${isFavorite ? className.button : ``}  button`} type="button" onClick={() => {
           if (authorizationStatus === AuthorizationStatus.AUTH) {
-            setIsFavorite(id, isFavorite, hotels);
+            dispatch(favoritePost(id, isFavorite, hotels));
           } else {
             history.push(`/login`);
           }
-
         }}>
           <svg className="place-card__bookmark-icon" width={18} height={19}>
             <use xlinkHref="#icon-bookmark" />
@@ -73,27 +75,7 @@ Card.propTypes = {
     linkWrapper: PropTypes.string,
     divInfo: PropTypes.string,
     button: PropTypes.string
-  }),
-  setDefaultStateLoad: PropTypes.func.isRequired,
-  setIsFavorite: PropTypes.func.isRequired,
-  hotels: PropTypes.arrayOf(CardProps),
-  authorizationStatus: PropTypes.string.isRequired
+  })
 };
 
-const mapStateToProps = (state) => ({
-  hotel: getHotel(state),
-  hotels: getHotels(state),
-  authorizationStatus: getAuthorizationStatus(state)
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  setDefaultStateLoad() {
-    dispatch(ActionCreator.setDefaultStateLoad());
-  },
-  setIsFavorite(id, isFavorite, hotels) {
-    dispatch(favoritePost(id, isFavorite, hotels));
-  }
-});
-
-export {Card};
-export default connect(mapStateToProps, mapDispatchToProps)(Card);
+export default Card;

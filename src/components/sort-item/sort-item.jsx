@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {TypeSort} from '../../utils/utils';
+import {SortType} from '../../utils/utils';
 import CardProps from '../card/card.prop';
 
 const SortItem = ({typeSort, type, onSort, hotels, city}) => {
-  return <li className={`places__option ${typeSort === type ? `places__option--active` : ``}`} onClick={(evt) => {
+  console.log(typeSort);
+  return <li className={`places__option ${SortType === type ? `places__option--active` : ``}`} onClick={(evt) => {
     evt.preventDefault();
-    onSort(TypeSort[type], hotels, city);
-  }} tabIndex={0}>{TypeSort[type]}</li>;
+    onSort(typeSort[type], hotels, city);
+  }} tabIndex={0}>{typeSort[type]}</li>;
 };
 
 SortItem.propTypes = {

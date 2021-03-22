@@ -2,21 +2,16 @@ import React, {useEffect} from 'react';
 import Header from '../header/header';
 import Map from '../map/map';
 import CityNameItem from '../city-name-item/city-name-item';
-import PropTypes from 'prop-types';
 import CardContainer from '../card-container/card-container';
-import {TypeCard, TypeMap, TypeSort} from '../../utils/utils';
-import CardProps from '../card/card.prop';
-import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/action';
+import {TypeCard, TypeMap, SortType} from '../../utils/utils';
+import {useSelector, useDispatch} from 'react-redux';
+import {changeCity, fillList, fillSortList, setActiveOffer, setDefaultOffer, setOffersCount, setSortType, setStateSort} from '../../store/action';
 import {CitesNames} from '../../utils/utils';
 import SortItem from '../sort-item/sort-item';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {fetchHotelsList} from '../../store/api-actions';
-import {getHotels} from '../../store/data/selectors';
-import {getCity, getOffersList, getOffersCount, getTypeSort, getActiveOffer, getStateSort} from '../../store/main/selectors';
-import {getIsDataLoaded} from '../../store/user/selectors';
 
-const getCitiesContainer = (offersList, offersCount, city, onSort, typeSort, hotels, onActive, onDefaultActive, activeOffer, stateSort, onStateSort) => {
+const getCitiesContainer = (offersList, offersCount, city, typeSort, hotels, onDefaultActive, activeOffer, onActive, onSort, stateSort, onStateSort) => {
   if (offersList.length !== 0) {
     return <div className="cities__places-container container">
       <section className="cities__places places">
@@ -34,7 +29,7 @@ const getCitiesContainer = (offersList, offersCount, city, onSort, typeSort, hot
             </svg>
           </span>
           <ul className={`places__options places__options--custom ${stateSort ? `places__options--opened` : ``}`}>
-            {Object.keys(TypeSort).map((type, id) => <SortItem key={`type_${id}`} typeSort={typeSort} type={type} onSort={onSort} hotels={hotels} city={city} />)}
+            {Object.keys(SortType).map((type, id) => <SortItem key={`type_${id}`} typeSort={typeSort} type={type} onSort={onSort} hotels={hotels} city={city} />)}
           </ul>
         </form>
         <CardContainer hotels={offersList} containerType={TypeCard.MAIN} onActive={onActive} onDefaultActive={onDefaultActive} />
@@ -56,12 +51,37 @@ const getCitiesContainer = (offersList, offersCount, city, onSort, typeSort, hot
   }
 };
 
-const MainScreen = (props) => {
-  const {offersCount, hotels, city, onUserCity, offersList, onSort, typeSort, onActive, onDefaultActive, activeOffer, stateSort, onStateSort, isDataLoaded, onLoadData} = props;
+const MainScreen = () => {
+
+  const {offersCount, city, offersList, typeSort, activeOffer, stateSort} = useSelector((state) => state.MAIN);
+  const {isDataLoaded} = useSelector((state) => state.USER);
+  const {hotels} = useSelector((state) => state.DATA);
+
+  const dispatch = useDispatch();
+
+  const onUserCity = (cityName, allHotels) => {
+    dispatch(changeCity(cityName));
+    dispatch(fillList(cityName, allHotels));
+    dispatch(setOffersCount(cityName, allHotels));
+    dispatch(setSortType(SortType.POPULAR));
+  };
+  const onSort = (allSortType, allHotels, cityName) => {
+    dispatch(setSortType(allSortType));
+    dispatch(fillSortList(allHotels, allSortType, cityName));
+  };
+  const onActive = (offer) => {
+    dispatch(setActiveOffer(offer));
+  };
+  const onDefaultActive = () => {
+    dispatch(setDefaultOffer());
+  };
+  const onStateSort = (sortState) => {
+    dispatch(setStateSort(sortState));
+  };
 
   useEffect(() => {
     if (!isDataLoaded) {
-      onLoadData();
+      dispatch(fetchHotelsList());
     }
     onUserCity(city, hotels);
   }, [isDataLoaded, hotels]);
@@ -90,58 +110,4 @@ const MainScreen = (props) => {
   </div>;
 };
 
-MainScreen.propTypes = {
-  offersCount: PropTypes.number,
-  hotels: PropTypes.arrayOf(CardProps).isRequired,
-  onUserCity: PropTypes.func.isRequired,
-  onSort: PropTypes.func.isRequired,
-  city: PropTypes.string.isRequired,
-  offersList: PropTypes.arrayOf(CardProps),
-  typeSort: PropTypes.string.isRequired,
-  onActive: PropTypes.func,
-  onDefaultActive: PropTypes.func,
-  activeOffer: CardProps,
-  stateSort: PropTypes.bool,
-  onStateSort: PropTypes.func,
-  isDataLoaded: PropTypes.bool.isRequired,
-  onLoadData: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  city: getCity(state),
-  offersList: getOffersList(state),
-  offersCount: getOffersCount(state),
-  typeSort: getTypeSort(state),
-  activeOffer: getActiveOffer(state),
-  stateSort: getStateSort(state),
-  isDataLoaded: getIsDataLoaded(state),
-  hotels: getHotels(state)
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onUserCity(cityName, hotels) {
-    dispatch(ActionCreator.changeCity(cityName));
-    dispatch(ActionCreator.fillList(cityName, hotels));
-    dispatch(ActionCreator.setOffersCount(cityName, hotels));
-    dispatch(ActionCreator.setSortType(TypeSort.POPULAR));
-  },
-  onSort(sortType, hotels, cityName) {
-    dispatch(ActionCreator.setSortType(sortType));
-    dispatch(ActionCreator.fillSortList(hotels, sortType, cityName));
-  },
-  onActive(offer) {
-    dispatch(ActionCreator.setActiveOffer(offer));
-  },
-  onDefaultActive() {
-    dispatch(ActionCreator.setDefaultOffer());
-  },
-  onStateSort(sortState) {
-    dispatch(ActionCreator.setStateSort(sortState));
-  },
-  onLoadData() {
-    dispatch(fetchHotelsList());
-  },
-});
-
-export {MainScreen};
-export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
+export default MainScreen;

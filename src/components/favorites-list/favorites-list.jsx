@@ -2,17 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Card from '../card/card';
 import CardProps from '../card/card.prop';
-import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/action';
-import {getFavoriteList} from '../../store/data/selectors';
-import {getStateSort, getActiveOffer} from '../../store/main/selectors';
+import {useDispatch} from 'react-redux';
+import {setActiveOffer, setDefaultOffer} from '../../store/action';
 
-const FavoritesList = ({hotels, cityName, onActive, onDefaultActive}) => {
+const FavoritesList = ({hotels, cityName}) => {
   const className = {
     article: `favorites__card`,
     linkWrapper: `cities__image-wrapper`,
     divInfo: `favorites__card-info`,
     button: `place-card__bookmark-button--active`
+  };
+
+  const dispatch = useDispatch();
+
+  const onActive = (offer) => {
+    dispatch(setActiveOffer(offer));
+  };
+
+  const onDefaultActive = () => {
+    dispatch(setDefaultOffer());
   };
 
   return <li className="favorites__locations-items">
@@ -35,27 +43,9 @@ const FavoritesList = ({hotels, cityName, onActive, onDefaultActive}) => {
   </li>;
 };
 
-const mapStateToProps = (state) => ({
-  activeOffer: getActiveOffer(state),
-  stateSort: getStateSort(state),
-  favoriteList: getFavoriteList(state)
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onActive(offer) {
-    dispatch(ActionCreator.setActiveOffer(offer));
-  },
-  onDefaultActive() {
-    dispatch(ActionCreator.setDefaultOffer());
-  }
-});
-
 FavoritesList.propTypes = {
   hotels: PropTypes.arrayOf(CardProps),
   cityName: PropTypes.string,
-  onActive: PropTypes.func,
-  onDefaultActive: PropTypes.func
 };
 
-export {FavoritesList};
-export default connect(mapStateToProps, mapDispatchToProps)(FavoritesList);
+export default FavoritesList;

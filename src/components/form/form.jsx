@@ -1,13 +1,15 @@
 import React, {useState} from 'react';
 import Rating from '../rating/rating';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {commentPost} from '../../store/api-actions';
 
 const MIN_LENGTH_COMMENT = 50;
 
-const Form = ({id, sendComment}) => {
+const Form = ({id}) => {
   const ratingValues = [5, 4, 3, 2, 1];
+
+  const dispatch = useDispatch();
 
   const [userForm, setUserForm] = useState({
     rating: 0,
@@ -17,7 +19,7 @@ const Form = ({id, sendComment}) => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    sendComment(id, userForm);
+    dispatch(commentPost(id, userForm));
     setUserForm({rating: 0, comment: ``, isDisabled: true});
   };
 
@@ -48,14 +50,6 @@ const Form = ({id, sendComment}) => {
 
 Form.propTypes = {
   id: PropTypes.number.isRequired,
-  sendComment: PropTypes.func.isRequired
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  sendComment(id, userForm) {
-    dispatch(commentPost(id, userForm));
-  }
-});
-
-export {Form};
-export default connect(null, mapDispatchToProps)(Form);
+export default Form;

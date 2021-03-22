@@ -1,11 +1,12 @@
-import {ActionType} from '../action';
-import {CitesNames, TypeSort} from '../../utils/utils';
+import {createReducer} from '@reduxjs/toolkit';
+import {CitesNames, SortType} from '../../utils/utils';
+import {changeCity, fillList, fillSortList, setActiveOffer, setDefaultOffer, setFavoriteHotel, setOffersCount, setSortType, setStateSort, setStatusCode} from '../action';
 
 const initialState = {
   city: CitesNames.PARIS,
   offersList: [],
   offersCount: null,
-  typeSort: TypeSort.POPULAR,
+  typeSort: SortType.POPULAR,
   activeOffer: {id: -1},
   stateSort: false,
   hotels: [],
@@ -13,62 +14,38 @@ const initialState = {
   statusCode: null
 };
 
-const main = (state = initialState, action) => {
-  switch (action.type) {
-    case ActionType.CITY_CHANGE:
-      return {
-        ...state,
-        city: action.payload
-      };
-    case ActionType.FILL_LIST:
-      return {
-        ...state,
-        offersList: action.payload
-      };
-    case ActionType.SET_OFFERS_COUNT:
-      return {
-        ...state,
-        offersCount: action.payload
-      };
-    case ActionType.SET_SORT_TYPE:
-      return {
-        ...state,
-        typeSort: action.payload
-      };
-    case ActionType.FILL_SORT_LIST:
-      return {
-        ...state,
-        offersList: action.payload
-      };
-    case ActionType.SET_ACTIVE_OFFER:
-      return {
-        ...state,
-        activeOffer: action.payload
-      };
-    case ActionType.SET_DEFAULT_OFFER:
-      return {
-        ...state,
-        activeOffer: action.payload,
-      };
-    case ActionType.SET_STATE_SORT:
-      return {
-        ...state,
-        stateSort: action.payload
-      };
-    case ActionType.SET_FAVORITE_HOTEL:
-      return {
-        ...state,
-        hotels: action.payload,
-        isFavoriteLoaded: false
-      };
-    case ActionType.SET_STATUS_CODE:
-      return {
-        ...state,
-        statusCode: action.payload
-      };
-    default:
-      return {...state};
-  }
-};
+const main = createReducer(initialState, (builder) => {
+  builder.addCase(changeCity, (state, action) => {
+    state.city = action.payload;
+  });
+  builder.addCase(fillList, (state, action) => {
+    state.offersList = action.payload;
+  });
+  builder.addCase(setOffersCount, (state, action) => {
+    state.offersCount = action.payload;
+  });
+  builder.addCase(setSortType, (state, action) => {
+    state.typeSort = action.payload;
+  });
+  builder.addCase(fillSortList, (state, action) => {
+    state.offersList = action.payload;
+  });
+  builder.addCase(setActiveOffer, (state, action) => {
+    state.activeOffer = action.payload;
+  });
+  builder.addCase(setDefaultOffer, (state, action) => {
+    state.activeOffer = action.payload;
+  });
+  builder.addCase(setStateSort, (state, action) => {
+    state.stateSort = action.payload;
+  });
+  builder.addCase(setFavoriteHotel, (state, action) => {
+    state.hotels = action.payload;
+    state.isFavoriteLoaded = false;
+  });
+  builder.addCase(setStatusCode, (state, action) => {
+    state.statusCode = action.payload;
+  });
+});
 
 export {main};

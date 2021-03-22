@@ -1,16 +1,21 @@
 import React, {useRef} from 'react';
 import Header from '../header/header';
 import {Link, useHistory} from 'react-router-dom';
-import PropTypes from "prop-types";
-import {connect} from "react-redux";
+import {useSelector, useDispatch} from 'react-redux';
 import {login} from "../../store/api-actions";
-import {ActionCreator} from '../../store/action';
-import {getCity} from '../../store/main/selectors';
-import {getHotels} from '../../store/data/selectors';
+import {setLogin} from '../../store/action';
 
-const LoginScreen = ({onSubmit, city}) => {
+const LoginScreen = () => {
   const loginRef = useRef();
   const passwordRef = useRef();
+
+  const {city} = useSelector((state) => state.MAIN);
+  const dispatch = useDispatch();
+
+  const onSubmit = (authData, loginName) => {
+    dispatch(login(authData));
+    dispatch(setLogin(loginName));
+  };
 
   const history = useHistory();
 
@@ -56,23 +61,4 @@ const LoginScreen = ({onSubmit, city}) => {
   );
 };
 
-LoginScreen.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  city: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  city: getCity(state),
-  hotels: getHotels(state),
-});
-
-
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit(authData, loginName) {
-    dispatch(login(authData));
-    dispatch(ActionCreator.setLogin(loginName));
-  },
-});
-
-export {LoginScreen};
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
+export default LoginScreen;

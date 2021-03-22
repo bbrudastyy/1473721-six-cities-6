@@ -1,23 +1,24 @@
 import React from 'react';
 import {Link, useHistory} from 'react-router-dom';
-import {connect} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {AuthorizationStatus} from '../../utils/utils';
-import PropTypes from 'prop-types';
 import {logout} from '../../store/api-actions';
-import {getAuthorizationStatus, getLoginName} from '../../store/user/selectors';
 
 const getElement = (stateAuthorization, loginName) => stateAuthorization === AuthorizationStatus.AUTH ? (<span className="header__user-name user__name">{loginName}</span>) : (<span className="header__login">Sign in</span>);
 
-const Header = ({loginName, authorizationStatus, onLogout}) => {
+const Header = () => {
 
   const history = useHistory();
+  const {authorizationStatus, loginName} = useSelector((state) => state.DATA);
+  const dispatch = useDispatch();
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
-    onLogout();
+    dispatch(logout());
     history.push(`/login`);
   };
+
   return (
     <header className="header">
       <div className="container">
@@ -52,23 +53,4 @@ const Header = ({loginName, authorizationStatus, onLogout}) => {
   );
 };
 
-Header.propTypes = {
-  authorizationStatus: PropTypes.string.isRequired,
-  onLogout: PropTypes.func.isRequired,
-  loginName: PropTypes.string
-};
-
-const mapStateToProps = (state) => ({
-  authorizationStatus: getAuthorizationStatus(state),
-  loginName: getLoginName(state)
-});
-
-
-const mapDispatchToProps = (dispatch) => ({
-  onLogout() {
-    dispatch(logout());
-  },
-});
-
-export {Header};
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default Header;
