@@ -14,16 +14,19 @@ export const fetchHotelsList = () => (dispatch, _getState, api) => (
 export const fetchHotel = (id) => (dispatch, _getState, api) => (
   api.get(`/hotels/${id}`)
     .then(({data}) => dispatch(ActionCreator.loadHotel(data)))
+    .catch(() => { })
 );
 
 export const fetchComments = (id) => (dispatch, _getState, api) => (
   api.get(`/comments/${id}`)
     .then(({data}) => dispatch(ActionCreator.loadComments(data)))
+    .catch(() => { })
 );
 
 export const fetchNear = (id) => (dispatch, _getState, api) => (
   api.get(`/hotels/${id}/nearby`)
     .then(({data}) => dispatch(ActionCreator.loadNearHotels(data)))
+    .catch(() => { })
 );
 
 export const fetchHotelsFavotiteList = () => (dispatch, _getState, api) => (

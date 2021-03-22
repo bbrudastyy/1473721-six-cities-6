@@ -5,6 +5,7 @@ import Comment from '../comment/comment';
 import CommentProps from '../comment/comment.prop';
 import {connect} from 'react-redux';
 import {AuthorizationStatus} from '../../utils/utils';
+import {getAuthorizationStatus} from '../../store/user/selectors';
 
 const getCommentContainer = (comments) => {
   if (comments) {
@@ -33,7 +34,7 @@ Reviews.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus
+  authorizationStatus: getAuthorizationStatus(state)
 });
 
 export {Reviews};

@@ -12,6 +12,9 @@ import {CitesNames} from '../../utils/utils';
 import SortItem from '../sort-item/sort-item';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {fetchHotelsList} from '../../store/api-actions';
+import {getHotels} from '../../store/data/selectors';
+import {getCity, getOffersList, getOffersCount, getTypeSort, getActiveOffer, getStateSort} from '../../store/main/selectors';
+import {getIsDataLoaded} from '../../store/user/selectors';
 
 const getCitiesContainer = (offersList, offersCount, city, onSort, typeSort, hotels, onActive, onDefaultActive, activeOffer, stateSort, onStateSort) => {
   if (offersList.length !== 0) {
@@ -70,7 +73,7 @@ const MainScreen = (props) => {
   }
 
   return <div className="page page--gray page--main">
-    <Header/>
+    <Header />
     <main className={`page__main page__main--index ${offersList.length === 0 ? `page__main--index-empty` : ``}`}>
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
@@ -105,14 +108,14 @@ MainScreen.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  city: state.city,
-  offersList: state.offersList,
-  offersCount: state.offersCount,
-  typeSort: state.typeSort,
-  activeOffer: state.activeOffer,
-  stateSort: state.stateSort,
-  isDataLoaded: state.isDataLoaded,
-  hotels: state.hotels
+  city: getCity(state),
+  offersList: getOffersList(state),
+  offersCount: getOffersCount(state),
+  typeSort: getTypeSort(state),
+  activeOffer: getActiveOffer(state),
+  stateSort: getStateSort(state),
+  isDataLoaded: getIsDataLoaded(state),
+  hotels: getHotels(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

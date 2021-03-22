@@ -19,7 +19,8 @@ const initialState = {
   isNearLoaded: false,
   isFavoriteLoaded: false,
   loginName: ``,
-  hotel: {}
+  hotel: null,
+  statusCode: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -116,6 +117,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         hotels: action.payload,
         isFavoriteLoaded: false
+      };
+    case ActionType.SET_STATUS_CODE:
+      return {
+        ...state,
+        statusCode: action.payload
       };
     default:
       return {...state};

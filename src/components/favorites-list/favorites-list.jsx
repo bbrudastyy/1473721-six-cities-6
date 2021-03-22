@@ -4,6 +4,8 @@ import Card from '../card/card';
 import CardProps from '../card/card.prop';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action';
+import {getFavoriteList} from '../../store/data/selectors';
+import {getStateSort, getActiveOffer} from '../../store/main/selectors';
 
 const FavoritesList = ({hotels, cityName, onActive, onDefaultActive}) => {
   const className = {
@@ -34,9 +36,9 @@ const FavoritesList = ({hotels, cityName, onActive, onDefaultActive}) => {
 };
 
 const mapStateToProps = (state) => ({
-  activeOffer: state.activeOffer,
-  stateSort: state.stateSort,
-  favoriteList: state.favoriteList
+  activeOffer: getActiveOffer(state),
+  stateSort: getStateSort(state),
+  favoriteList: getFavoriteList(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

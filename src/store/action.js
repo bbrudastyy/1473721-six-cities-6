@@ -18,7 +18,8 @@ export const ActionType = {
   SET_LOGIN: `user/setLogin`,
   LOAD_HOTEL: `main/loadHotel`,
   SET_DEFAULT_STATE_LOAD: `data/setDefaultStateLoad`,
-  SET_FAVORITE_HOTEL: `main/setFavoriteHotel`
+  SET_FAVORITE_HOTEL: `main/setFavoriteHotel`,
+  SET_STATUS_CODE: `main/setStatusCode`
 };
 
 export const ActionCreator = {
@@ -61,6 +62,10 @@ export const ActionCreator = {
   requireAuthorization: (status) => ({
     type: ActionType.REQUIRED_AUTHORIZATION,
     payload: status,
+  }),
+  setStatusCode: (status) => ({
+    type: ActionType.SET_STATUS_CODE,
+    payload: status
   }),
   loadFavoriteList: (hotels) => ({
     type: ActionType.LOAD_FAVORITE_HOTELS,

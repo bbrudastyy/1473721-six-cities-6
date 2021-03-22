@@ -22,14 +22,19 @@ const Form = ({id, sendComment}) => {
   };
 
   const handleFieldChange = (evt) => {
-    const {name, value} = evt.target;
+    const {name} = evt.target;
+    let {value} = evt.target;
+    if (name === `rating`) {
+      value = Number.parseInt(value, 10);
+    }
+
     setUserForm({...userForm, [name]: value, isDisabled: userForm.comment.length < MIN_LENGTH_COMMENT});
   };
 
   return <form className="reviews__form form" action="#" method="post" onSubmit={handleSubmit}>
     <label className="reviews__label form__label" htmlFor="review">Your review</label>
     <div className="reviews__rating-form form__rating">
-      {ratingValues.map((ratingValue) => <Rating key={`rating_${ratingValue}`} rating={ratingValue} handleFieldChange={handleFieldChange} />)}
+      {ratingValues.map((ratingValue) => <Rating key={`rating_${ratingValue}`} checked={userForm.rating === ratingValue} rating={ratingValue} handleFieldChange={handleFieldChange} />)}
     </div>
     <textarea className="reviews__textarea form__textarea" id="comment" name="comment" placeholder="Tell how was your stay, what you like and what can be improved" value={userForm.comment} onChange={handleFieldChange} />
     <div className="reviews__button-wrapper">

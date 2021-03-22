@@ -12,7 +12,7 @@ const CardMain = ({hotels, onActive, onDefaultActive}) => {
   };
 
   return <div className="cities__places-list places__list tabs__content">
-    {hotels.map((offer) => <Card key={offer.id} offer={offer} className={className} onActive={onActive} onDefaultActive={onDefaultActive}/>)}
+    {hotels.map((offer) => <Card key={offer.id} offer={offer} className={className} onActive={onActive} onDefaultActive={onDefaultActive} />)}
   </div>;
 };
 

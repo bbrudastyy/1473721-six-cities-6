@@ -6,6 +6,8 @@ import CardProps from './card.prop';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action';
 import {favoritePost} from '../../store/api-actions';
+import {getHotel, getHotels} from '../../store/data/selectors';
+import {getAuthorizationStatus} from '../../store/user/selectors';
 
 const Card = ({offer, className, onActive, onDefaultActive, setDefaultStateLoad, setIsFavorite, hotels, authorizationStatus}) => {
   const {price, isPremium, previewImage, title, rating, isFavorite, type, id} = offer;
@@ -79,9 +81,9 @@ Card.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  hotel: state.hotel,
-  hotels: state.hotels,
-  authorizationStatus: state.authorizationStatus
+  hotel: getHotel(state),
+  hotels: getHotels(state),
+  authorizationStatus: getAuthorizationStatus(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

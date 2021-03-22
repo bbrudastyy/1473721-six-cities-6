@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {AuthorizationStatus} from '../../utils/utils';
 import PropTypes from 'prop-types';
 import {logout} from '../../store/api-actions';
+import {getAuthorizationStatus, getLoginName} from '../../store/user/selectors';
 
 const getElement = (stateAuthorization, loginName) => stateAuthorization === AuthorizationStatus.AUTH ? (<span className="header__user-name user__name">{loginName}</span>) : (<span className="header__login">Sign in</span>);
 
@@ -38,7 +39,7 @@ const Header = ({loginName, authorizationStatus, onLogout}) => {
                   {getElement(authorizationStatus, loginName)}
                 </Link>
               </li>
-              { authorizationStatus === AuthorizationStatus.AUTH ?
+              {authorizationStatus === AuthorizationStatus.AUTH ?
                 (<li style={{marginLeft: 5, marginTop: 2}} className="header__nav-item">
                   <button className="button" onClick={handleSubmit}>Выйти</button>
                 </li>) : ``
@@ -58,8 +59,8 @@ Header.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus,
-  loginName: state.loginName
+  authorizationStatus: getAuthorizationStatus(state),
+  loginName: getLoginName(state)
 });
 
 

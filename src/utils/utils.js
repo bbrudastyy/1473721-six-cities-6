@@ -78,6 +78,7 @@ export const formDate = (value, format) => dayjs(value).format(format);
 
 export const changeHotel = (hotels, hotel) => {
   let itemNumber = null;
+  hotels = hotels.slice();
   hotels.forEach((currentValue, index) => {
     if (currentValue.id === hotel.id) {
       itemNumber = index;

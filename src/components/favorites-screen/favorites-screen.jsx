@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import cardProp from '../card/card.prop';
 import {fetchHotelsFavotiteList} from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
+import {getFavoriteList, getHotels, getIsFavoriteLoaded} from '../../store/data/selectors';
 
 const FavoritesScreen = ({favoriteList, loadFavorite, isFavoriteLoaded, hotels}) => {
 
@@ -24,7 +25,7 @@ const FavoritesScreen = ({favoriteList, loadFavorite, isFavoriteLoaded, hotels})
 
   return (
     <div className="page">
-      <Header/>
+      <Header />
       <main className="page__main page__main--favorites">
         <CardContainer hotels={favoriteList} containerType={TypeCard.FAVORITE} />
       </main>
@@ -51,9 +52,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
-  favoriteList: state.favoriteList,
-  isFavoriteLoaded: state.isFavoriteLoaded,
-  hotels: state.hotels
+  favoriteList: getFavoriteList(state),
+  isFavoriteLoaded: getIsFavoriteLoaded(state),
+  hotels: getHotels(state)
 });
 
 export {FavoritesScreen};

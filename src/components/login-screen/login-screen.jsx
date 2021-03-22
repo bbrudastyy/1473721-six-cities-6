@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {login} from "../../store/api-actions";
 import {ActionCreator} from '../../store/action';
+import {getCity} from '../../store/main/selectors';
+import {getHotels} from '../../store/data/selectors';
 
 const LoginScreen = ({onSubmit, city}) => {
   const loginRef = useRef();
@@ -60,8 +62,8 @@ LoginScreen.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  city: state.city,
-  hotels: state.hotels,
+  city: getCity(state),
+  hotels: getHotels(state),
 });
 
 
