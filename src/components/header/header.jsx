@@ -3,13 +3,14 @@ import {Link, useHistory} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import {AuthorizationStatus} from '../../utils/utils';
 import {logout} from '../../store/api-actions';
+import {STATE_SELECTOR} from '../../utils/state-selector';
 
 const getElement = (stateAuthorization, loginName) => stateAuthorization === AuthorizationStatus.AUTH ? (<span className="header__user-name user__name">{loginName}</span>) : (<span className="header__login">Sign in</span>);
 
 const Header = () => {
 
   const history = useHistory();
-  const {authorizationStatus, loginName} = useSelector((state) => state.DATA);
+  const {authorizationStatus, loginName} = useSelector(STATE_SELECTOR.USER);
   const dispatch = useDispatch();
 
   const handleSubmit = (evt) => {

@@ -4,7 +4,6 @@ import {SortType} from '../../utils/utils';
 import CardProps from '../card/card.prop';
 
 const SortItem = ({typeSort, type, onSort, hotels, city}) => {
-  console.log(typeSort);
   return <li className={`places__option ${SortType === type ? `places__option--active` : ``}`} onClick={(evt) => {
     evt.preventDefault();
     onSort(typeSort[type], hotels, city);

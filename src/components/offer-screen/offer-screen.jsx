@@ -14,6 +14,7 @@ import {fetchHotel, fetchComments, fetchNear} from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import {HttpCode} from '../../services/api';
+import {STATE_SELECTOR} from '../../utils/state-selector';
 
 const getPhotosContainer = (photos) => {
   if (photos) {
@@ -56,9 +57,8 @@ const getOtherPlace = (hotels, name, onActive, onDefaultActive) => {
 const OfferScreen = ({id}) => {
 
   // const {city, activeOffer, statusCode} = useSelector((state) => state.MAIN);
-  const {activeOffer, statusCode} = useSelector((state) => state.MAIN);
-  const {hotel, isHotelLoaded, isCommentsLoaded, isNearLoaded, comments, nearHotels} = useSelector((state) => state.DATA);
-  const {} = useSelector((state) => state.USER);
+  const {activeOffer, statusCode} = useSelector(STATE_SELECTOR.MAIN);
+  const {hotel, isHotelLoaded, isCommentsLoaded, isNearLoaded, comments, nearHotels} = useSelector(STATE_SELECTOR.DATA);
 
   const dispatch = useDispatch();
 
@@ -89,11 +89,11 @@ const OfferScreen = ({id}) => {
       return (
         <NotFoundScreen />
       );
-    } else {
-      return (
-        <LoadingScreen />
-      );
     }
+
+    return (
+      <LoadingScreen />
+    );
   }
 
   const {images, isFavorite, title, isPremium, rating, type, bedrooms, maxAdults, price, goods, host, description, city} = hotel;

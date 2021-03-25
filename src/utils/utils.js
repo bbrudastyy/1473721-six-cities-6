@@ -77,14 +77,16 @@ export const randomItem = (elements, min) => elements[randomInteger(min, element
 export const formDate = (value, format) => dayjs(value).format(format);
 
 export const changeHotel = (hotels, hotel) => {
-  let itemNumber = null;
-  hotels = hotels.slice();
-  hotels.forEach((currentValue, index) => {
-    if (currentValue.id === hotel.id) {
-      itemNumber = index;
-    }
-  });
-  hotels.splice(itemNumber, VALUE_FOR_SPLICE, hotel);
+  const help = hotels.slice();
+  const itemNumber = help.findIndex((element) => element.id === hotel.id);
+  console.log(itemNumber);
+  // hotels.forEach((currentValue, index) => {
+  //   if (currentValue.id === hotel.id) {
+  //     itemNumber = index;
+  //   }
+  // });
+  help.splice(itemNumber, VALUE_FOR_SPLICE, hotel);
+  // console.log(help);
 
-  return hotels;
+  return help;
 };

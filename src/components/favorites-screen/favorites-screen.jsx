@@ -5,10 +5,11 @@ import {TypeCard} from '../../utils/utils';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchHotelsFavotiteList} from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
+import {STATE_SELECTOR} from '../../utils/state-selector';
 
 const FavoritesScreen = () => {
 
-  const {favoriteList, isFavoriteLoaded, hotels} = useSelector((state) => state.DATA);
+  const {favoriteList, isFavoriteLoaded, hotels} = useSelector(STATE_SELECTOR.DATA);
   const dispatch = useDispatch();
 
   useEffect(() => {

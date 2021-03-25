@@ -4,12 +4,13 @@ import {Link, useHistory} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import {login} from "../../store/api-actions";
 import {setLogin} from '../../store/action';
+import {STATE_SELECTOR} from '../../utils/state-selector';
 
 const LoginScreen = () => {
   const loginRef = useRef();
   const passwordRef = useRef();
 
-  const {city} = useSelector((state) => state.MAIN);
+  const {city} = useSelector(STATE_SELECTOR.MAIN);
   const dispatch = useDispatch();
 
   const onSubmit = (authData, loginName) => {

@@ -6,10 +6,11 @@ import {AuthorizationStatus, getRatingWidth} from '../../utils/utils';
 import CardProps from './card.prop';
 import {setDefaultStateLoad} from '../../store/action';
 import {favoritePost} from '../../store/api-actions';
+import {STATE_SELECTOR} from '../../utils/state-selector';
 
 const Card = ({offer, className, onActive, onDefaultActive}) => {
-  const {hotels} = useSelector((state) => state.DATA);
-  const {authorizationStatus} = useSelector((state) => state.USER);
+  const {hotels} = useSelector(STATE_SELECTOR.DATA);
+  const {authorizationStatus} = useSelector(STATE_SELECTOR.USER);
 
   const {price, isPremium, previewImage, title, rating, isFavorite, type, id} = offer;
   const history = useHistory();
